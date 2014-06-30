@@ -20,7 +20,8 @@ public class XMLFileWriter {
 	int documentCounter = 0;
 	String filePrefix = "L";
 	int fileCounter = 0;
-	String filePath = "data/xml";
+	String baseFolder = "data";
+	String filePath = baseFolder+"/xml";
 	BufferedWriter bw;
 	FileWriter fw;
 	int maxDocumentCounter = 100;
@@ -96,6 +97,12 @@ public class XMLFileWriter {
 	}
 	
 	private void createFile() throws IOException{
+		File dirBase = new File(baseFolder);
+		dirBase.mkdir();
+		File dirXml = new File(filePath);
+		dirXml.mkdir();
+		
+		
 		String path = filePath+"/"+filePrefix+String.format("%03d", fileCounter)+".xml";
 		 
 		File file = new File(path);
