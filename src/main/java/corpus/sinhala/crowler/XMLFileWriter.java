@@ -13,6 +13,7 @@ import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;
 
 import corpus.sinhala.crowler.parser.LankadeepaParser;
+import corpus.sinhala.crowler.parser.Parser;
 
 import edu.uci.ics.crawler4j.crawler.Page;
 
@@ -50,7 +51,7 @@ public class XMLFileWriter {
 	
 	public void addDocument(Page page) throws IOException{
 //		documentQueue.add(new Parser(page));
-		LankadeepaParser parser = new LankadeepaParser(page);
+		Parser parser = new LankadeepaParser(page);
 		
 		OMElement doc = factory.createOMElement(postName);
 		
