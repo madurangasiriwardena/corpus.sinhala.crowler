@@ -24,11 +24,11 @@ public class LocalDataCollectorController {
 
                 CrawlConfig config = new CrawlConfig();
                 config.setCrawlStorageFolder(rootFolder);
-                config.setMaxPagesToFetch(1);
+                config.setMaxPagesToFetch(110);
                 config.setPolitenessDelay(1000);
                 config.setMaxDepthOfCrawling(10);
-//                config.setProxyHost("cache.mrt.ac.lk");
-//                config.setProxyPort(3128);
+                config.setProxyHost("cache.mrt.ac.lk");
+                config.setProxyPort(3128);
 
                 PageFetcher pageFetcher = new PageFetcher(config);
                 RobotstxtConfig robotstxtConfig = new RobotstxtConfig();

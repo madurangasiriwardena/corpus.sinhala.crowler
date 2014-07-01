@@ -3,14 +3,21 @@ package corpus.sinhala.crowler;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;
+import org.apache.axiom.om.util.StAXUtils;
+
+import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
 
 import corpus.sinhala.crowler.parser.LankadeepaParser;
 import corpus.sinhala.crowler.parser.Parser;
@@ -27,6 +34,7 @@ public class XMLFileWriter {
 	FileWriter fw;
 	int maxDocumentCounter = 100;
 //	Queue<Parser> documentQueue = new LinkedList<Parser>();
+	String path;
 	
 	
 	OMFactory factory;
@@ -49,7 +57,7 @@ public class XMLFileWriter {
 
 	}
 	
-	public void addDocument(Page page) throws IOException{
+	public void addDocument(Page page) throws IOException, XMLStreamException{
 //		documentQueue.add(new Parser(page));
 		Parser parser = new LankadeepaParser(page);
 		
@@ -86,15 +94,27 @@ public class XMLFileWriter {
 		content.setText(parser.getContent());
 		doc.addChild(content);
 		root.addChild(doc);		
-		System.out.println(root.toString());
+//		System.out.println(root.toString());
 		
-		writeToFile();
+		documentCounter++;
+		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+documentCounter);
+		if(documentCounter%maxDocumentCounter==0){
+			
+			writeToFile();
+		}
 	}
 	
 	
-	private void writeToFile() throws IOException{
-		bw.write(root.toString());
-		bw.close();
+	private void writeToFile() throws IOException, XMLStreamException{
+//		bw.write(root.toString());
+//		bw.close();
+		
+		OutputStream out = new FileOutputStream(path);
+		XMLStreamWriter writer = StAXUtils.createXMLStreamWriter(out);
+		writer = new IndentingXMLStreamWriter(writer);
+		root.serialize(writer);
+		writer.flush();
+		createFile();
 	}
 	
 	private void createFile() throws IOException{
@@ -104,17 +124,15 @@ public class XMLFileWriter {
 		dirXml.mkdir();
 		
 		
-		String path = filePath+"/"+filePrefix+String.format("%03d", fileCounter)+".xml";
+		path = filePath+"/"+filePrefix+String.format("%04d", fileCounter)+".xml";
 		 
 		File file = new File(path);
 
-		// if file doesnt exists, then create it
 		if (!file.exists()) {
 			file.createNewFile();
 		}
-
-		fw = new FileWriter(file);
-		bw = new BufferedWriter(fw);
+		
+		fileCounter++;
 	}
 	
 //	public static void main(String[] args) throws IOException {

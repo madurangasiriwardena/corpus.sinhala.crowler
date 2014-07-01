@@ -76,14 +76,11 @@ public class LankadeepaParser implements Parser {
 		boolean dataFound = false;
 		while(itr.hasNext()){
 			Element e = itr.next();
-//			System.out.println(e);
-//			System.out.print(counter   + " : ");
-			
-			
 			String attrStyle = e.attr("style");
 			String attrClass = e.attr("class");
 			if(attrStyle.equals("") && attrClass.equals("") && !e.html().equals("&nbsp;")){
-				content += (e.text()+"\n");
+				e.text().trim();
+				content += (e.text()+" ");
 				
 				if(!dataFound){
 					data = articleElements.get(counter-1).text();
@@ -94,6 +91,7 @@ public class LankadeepaParser implements Parser {
 			counter++;
 			
 		}
+		content.trim();
 		
 		String[] dataArr = data.split("\\|");
 		author = dataArr[1];
