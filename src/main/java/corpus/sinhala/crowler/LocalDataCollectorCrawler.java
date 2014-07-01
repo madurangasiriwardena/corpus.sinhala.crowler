@@ -10,6 +10,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import javax.xml.stream.XMLStreamException;
+
 import corpus.sinhala.crowler.parser.LankadeepaParser;
 
 public class LocalDataCollectorCrawler extends WebCrawler {
@@ -18,9 +20,11 @@ public class LocalDataCollectorCrawler extends WebCrawler {
                         + "|wav|avi|mov|mpeg|ram|m4v|pdf" + "|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 
         CrawlStat myCrawlStat;
+        XMLFileWriter xfw;
 
-        public LocalDataCollectorCrawler() {
+        public LocalDataCollectorCrawler() throws IOException {
                 myCrawlStat = new CrawlStat();
+                xfw = new XMLFileWriter();
         }
 
         @Override
@@ -40,9 +44,9 @@ public class LocalDataCollectorCrawler extends WebCrawler {
                         new LankadeepaParser(page);
 //                        System.out.println((new Parser(page).getTitle()));
                         try {
-							XMLFileWriter xfw = new XMLFileWriter();
+							
 							xfw.addDocument(page);
-						} catch (IOException e) {
+						} catch (IOException | XMLStreamException e) {
 							e.printStackTrace();
 						}
                        
