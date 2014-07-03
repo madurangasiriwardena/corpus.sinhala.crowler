@@ -27,36 +27,59 @@ import javanet.staxutils.IndentingXMLStreamWriter;
 import edu.uci.ics.crawler4j.crawler.Page;
 
 public class XMLFileWriter {
-	int documentCounter = 0;
-	String filePrefix = "L";
-	int fileCounter = 0;
-	String baseFolder = "data";
-	String filePath = baseFolder+"/xml";
-	BufferedWriter bw;
-	FileWriter fw;
-	int maxDocumentCounter = 100;
-//	Queue<Parser> documentQueue = new LinkedList<Parser>();
-	String path;
+	private int documentCounter;
+	private String filePrefix;
+	private int fileCounter;
+	private String baseFolder;
+	private String filePath;
+//	private BufferedWriter bw;
+//	private FileWriter fw;
+	private int maxDocumentCounter;
+	private String path;
 	
 	
-	OMFactory factory;
-	OMElement root;
-	QName rootName = new QName("root");
-	QName linkName = new QName("link");
-	QName topicName = new QName("topic");
-	QName authorName = new QName("author");
-	QName contentName = new QName("content");
-	QName postName = new QName("post");
-	QName dateName = new QName("date");
-	QName yearName = new QName("year");
-	QName monthName = new QName("month");
-	QName dayName = new QName("day");
+	private OMFactory factory;
+	private OMElement root;
+	private QName rootName;
+	private QName linkName;
+	private QName topicName;
+	private QName authorName;
+	private QName contentName;
+	private QName postName;
+	private QName dateName;
+	private QName yearName;
+	private QName monthName;
+	private QName dayName;
 	
 	public XMLFileWriter() throws IOException{
-		createFile();
+		init();
+		createFolder();
 		factory = OMAbstractFactory.getOMFactory();
 		root = factory.createOMElement(rootName);
 
+	}
+	
+	private void init(){
+		documentCounter = 0;
+		filePrefix = "L";
+		fileCounter = 0;
+		baseFolder = "data";
+		filePath = baseFolder+"/xml";
+		maxDocumentCounter = 100;
+		rootName = new QName("root");
+		linkName = new QName("link");
+		topicName = new QName("topic");
+		authorName = new QName("author");
+		contentName = new QName("content");
+		postName = new QName("post");
+		dateName = new QName("date");
+		yearName = new QName("year");
+		monthName = new QName("month");
+		dayName = new QName("day");
+	}
+	
+	public int getDocumentCounter() {
+		return documentCounter;
 	}
 	
 	public void addDocument(Page page) throws IOException, XMLStreamException{
@@ -101,40 +124,41 @@ public class XMLFileWriter {
 		documentCounter++;
 		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+documentCounter);
 		if(documentCounter%maxDocumentCounter==0){
-			
 			writeToFile();
+			documentCounter=0;
+			root = factory.createOMElement(rootName);
 		}
 	}
 	
 	
-	private void writeToFile() throws IOException, XMLStreamException{
+	public void writeToFile() throws IOException, XMLStreamException{
 //		bw.write(root.toString());
 //		bw.close();
-		
+		path = filePath+"/"+filePrefix+String.format("%04d", fileCounter)+".xml";
 		OutputStream out = new FileOutputStream(path);
 		XMLStreamWriter writer = StAXUtils.createXMLStreamWriter(out);
 		writer = new IndentingXMLStreamWriter(writer);
 		root.serialize(writer);
 		writer.flush();
-		createFile();
+		fileCounter++;
 	}
 	
-	private void createFile() throws IOException{
+	private void createFolder() throws IOException{
 		File dirBase = new File(baseFolder);
 		dirBase.mkdir();
 		File dirXml = new File(filePath);
 		dirXml.mkdir();
+//		
+//		
+//		path = filePath+"/"+filePrefix+String.format("%04d", fileCounter)+".xml";
+//		 
+//		File file = new File(path);
+//
+//		if (!file.exists()) {
+//			file.createNewFile();
+//		}
 		
 		
-		path = filePath+"/"+filePrefix+String.format("%04d", fileCounter)+".xml";
-		 
-		File file = new File(path);
-
-		if (!file.exists()) {
-			file.createNewFile();
-		}
-		
-		fileCounter++;
 	}
 	
 //	public static void main(String[] args) throws IOException {

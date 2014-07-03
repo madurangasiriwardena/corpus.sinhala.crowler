@@ -24,7 +24,7 @@ public class LocalDataCollectorController {
 
                 CrawlConfig config = new CrawlConfig();
                 config.setCrawlStorageFolder(rootFolder);
-                config.setMaxPagesToFetch(110);
+                config.setMaxPagesToFetch(700);
                 config.setPolitenessDelay(1000);
                 config.setMaxDepthOfCrawling(10);
                 config.setProxyHost("cache.mrt.ac.lk");
@@ -35,7 +35,7 @@ public class LocalDataCollectorController {
                 RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
                 CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
 
-                controller.addSeed("http://www.lankadeepa.lk/index.php/articles/108528");
+                controller.addSeed("http://www.lankadeepa.lk/index.php/");
                 controller.start(LocalDataCollectorCrawler.class, numberOfCrawlers);
 
                 List<Object> crawlersLocalData = controller.getCrawlersLocalData();

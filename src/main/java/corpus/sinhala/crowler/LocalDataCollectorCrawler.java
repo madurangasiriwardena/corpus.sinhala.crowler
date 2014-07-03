@@ -75,6 +75,13 @@ public class LocalDataCollectorCrawler extends WebCrawler {
         // You can put whatever stuff you need here.
         @Override
         public void onBeforeExit() {
+        	if(xfw.getDocumentCounter()>0){
+        		try {
+					xfw.writeToFile();
+				} catch (IOException | XMLStreamException e) {
+					e.printStackTrace();
+				}
+        	}
                 dumpMyData();
         }
 
