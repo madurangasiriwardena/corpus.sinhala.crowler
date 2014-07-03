@@ -17,10 +17,12 @@ import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;
 import org.apache.axiom.om.util.StAXUtils;
 
-import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
+//import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
 
 import corpus.sinhala.crowler.parser.LankadeepaParser;
 import corpus.sinhala.crowler.parser.Parser;
+import javanet.staxutils.IndentingXMLStreamWriter;
+
 
 import edu.uci.ics.crawler4j.crawler.Page;
 
