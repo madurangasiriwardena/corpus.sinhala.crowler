@@ -5,7 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class DivainaParser {
+public class DivainaParser implements Parser {
 	Document doc;
 	String url;
 	Element titleElement;
@@ -14,7 +14,7 @@ public class DivainaParser {
 	Element bodyElement;
 	Elements bodyElements;
 	String[] arr;
-	public Parser implements Parser(String page, String url){
+	public DivainaParser(String page, String url){
 		doc = Jsoup.parse(page);
 		this.url = url;
 		titleElement = doc.select("font[color=#336600]").first();
