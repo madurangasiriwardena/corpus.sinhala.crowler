@@ -14,7 +14,7 @@ public class DivainaParser {
 	Element bodyElement;
 	Elements bodyElements;
 	String[] arr;
-	public Parser(String page, String url){
+	public Parser implements Parser(String page, String url){
 		doc = Jsoup.parse(page);
 		this.url = url;
 		titleElement = doc.select("font[color=#336600]").first();
