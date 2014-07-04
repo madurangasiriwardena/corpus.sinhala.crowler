@@ -5,14 +5,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class DinamnaParser implements Parser{
+public class DinaminaParser implements Parser{
 	Document doc;
 	String url;
 	Element titleElement;
 	Element p;
 	String[] arr;
 
-	public DinamnaParser(String page, String url){
+	public DinaminaParser(String page, String url){
 		doc = Jsoup.parse(page);
 		this.url = url;
 		titleElement = doc.select("h2").first();
