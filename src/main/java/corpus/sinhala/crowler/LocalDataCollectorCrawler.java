@@ -61,11 +61,11 @@ public class LocalDataCollectorCrawler extends WebCrawler {
 
 		if (page.getParseData() instanceof HtmlParseData) {
 			HtmlParseData parseData = (HtmlParseData) page.getParseData();
-			new LankadeepaParser(page);
+			//new LankadeepaParser(parseData.getHtml(), page.getWebURL().getURL());
 			// System.out.println((new Parser(page).getTitle()));
 			try {
 
-				xfw.addDocument(page);
+				xfw.addDocument(parseData.getHtml(), page.getWebURL().getURL());
 			} catch (IOException | XMLStreamException e) {
 				e.printStackTrace();
 			}

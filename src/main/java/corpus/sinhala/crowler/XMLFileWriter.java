@@ -20,6 +20,7 @@ import org.apache.axiom.om.util.StAXUtils;
 //import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
 
 import corpus.sinhala.crowler.parser.LankadeepaParser;
+import corpus.sinhala.crowler.parser.NamaskaraParser;
 import corpus.sinhala.crowler.parser.Parser;
 import javanet.staxutils.IndentingXMLStreamWriter;
 
@@ -82,9 +83,9 @@ public class XMLFileWriter {
 		return documentCounter;
 	}
 	
-	public void addDocument(Page page) throws IOException, XMLStreamException{
+	public void addDocument(String page, String url) throws IOException, XMLStreamException{
 //		documentQueue.add(new Parser(page));
-		Parser parser = new LankadeepaParser(page);
+		Parser parser = new NamaskaraParser(page, url);
 		
 		OMElement doc = factory.createOMElement(postName);
 		

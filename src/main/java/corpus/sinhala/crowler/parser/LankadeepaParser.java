@@ -48,11 +48,10 @@ public class LankadeepaParser implements Parser {
 		return date;
 	}
 	
-	public LankadeepaParser(Page page){
-		HtmlParseData parseData = (HtmlParseData) page.getParseData();
-		String pageString = parseData.getHtml();
+	public LankadeepaParser(String page, String url){
+		String pageString = page;
 		doc = Jsoup.parse(pageString);
-		url = page.getWebURL().getURL();
+		this.url = url;
 		System.out.println(url);
 		parsePage();
 	}

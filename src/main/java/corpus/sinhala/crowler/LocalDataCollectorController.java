@@ -79,7 +79,10 @@ public class LocalDataCollectorController {
 		CrawlController controller = new CrawlController(config, pageFetcher,
 				robotstxtServer);
 
-		controller.addSeed("http://www.lankadeepa.lk/index.php/");
+		if(seed != null && !seed.equals("")){
+			controller.addSeed(seed);
+		}
+//		controller.addSeed("http://www.lankadeepa.lk/index.php/");
 		controller.start(LocalDataCollectorCrawler.class, numberOfCrawlers);
 
 		List<Object> crawlersLocalData = controller.getCrawlersLocalData();
