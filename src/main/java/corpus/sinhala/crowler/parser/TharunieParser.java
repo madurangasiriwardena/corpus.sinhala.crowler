@@ -1,35 +1,25 @@
-package crawler;
+package corpus.sinhala.crowler.parser;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class TharunieParser {
+public class TharunieParser implements Parser{
 	Document doc;
 	String url;
-	Element titleElement;
-	Element p;
-	String[] arr;
-	
+
 	public TharunieParser(String page, String url){
 		doc = Jsoup.parse(page);
 		this.url = url;
-//		titleElement = doc.select("h2").first();
-//		if(titleElement.select("img").size()==0){
-//			titleElement = doc.select("h2").first();
-//		}else{
-//			titleElement = doc.select("h2").get(1);
-//		}
-//		p = titleElement.parent();
-//		arr = url.split("/");
-		
+
+
 	}
-	
+
 	public String getTitle(){
 		return doc.select("h2[class=itemTitle]").first().text();
 	}
-	
+
 	public String getAuthor(){
 		String[] comps = doc.select("span[class=itemAuthor]").first().text().split("ලිව්වේ");
 		if(comps.length ==2){
@@ -44,22 +34,21 @@ public class TharunieParser {
 			return "";
 		}
 	}
-	
+
 	public String getContent(){
 		return doc.select("div[class=itemIntroText]").first().text() + doc.select("div[class=itemFullText]").first().text();
 	}
-	
+
 	public String getUrl(){
 		return url;
 	}
-	
+
 	public String getYear(){
 		return doc.select("span[class=itemDateCreated]").first().text().split(" ")[0];
 	}
-	
+
 	public String getMonth(){
 		String month = doc.select("span[class=itemDateCreated]").first().text().split(" ")[1];
-		System.out.println("--------------"+ month);
 		if(month.equals("ජනවාරි")){
 			return "01";
 		}else if(month.equals("පෙබරවාරි")){
@@ -87,9 +76,9 @@ public class TharunieParser {
 		}
 		return doc.select("span[class=itemDateCreated]").first().text().split(" ")[1];
 	}
-	
+
 	public String getDate(){
 		return doc.select("span[class=itemDateCreated]").first().text().split(" ")[2].substring(0,2);
 	}
-	
+
 }

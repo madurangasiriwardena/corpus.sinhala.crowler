@@ -8,22 +8,10 @@ import org.jsoup.select.Elements;
 public class AdaDeranaParser implements Parser{
 	Document doc;
 	String url;
-	Element titleElement;
-	Element p;
-	String[] arr;
 
 	public AdaDeranaParser(String page, String url){
 		doc = Jsoup.parse(page);
 		this.url = url;
-//		titleElement = doc.select("h2").first();
-//		if(titleElement.select("img").size()==0){
-//			titleElement = doc.select("h2").first();
-//		}else{
-//			titleElement = doc.select("h2").get(1);
-//		}
-//		p = titleElement.parent();
-//		arr = url.split("/");
-
 	}
 
 	public String getTitle(){
