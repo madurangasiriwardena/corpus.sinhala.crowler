@@ -24,7 +24,8 @@ public class DivainaGenerator {
 	int month;
 	int date;
 	int articleId;
-	String articleName;
+	String[] articleName;
+	int articleNameId;
 
 	DateTime dt;
 	DateTime endDate;
@@ -46,7 +47,16 @@ public class DivainaGenerator {
 		month = sMonth;
 		date = sDate;
 		articleId = 1;
-		articleName = "news";
+		articleName = new String[7];
+		articleName[0] = "news";
+		articleName[1] = "feature";
+		articleName[2] = "provin";
+		articleName[3] = "velanda";
+		articleName[4] = "cineart";
+		articleName[5] = "sports";
+		articleName[6] = "forign";
+		articleNameId = 0;
+		
 
 		dt = new DateTime(sYear, sMonth, sDate, 0, 0, 0, 0);
 		System.out.println("Crawling from "+dt);
@@ -58,7 +68,7 @@ public class DivainaGenerator {
 	public String generator() {
 		String url = "http://www.divaina.com/" + year + "/"
 				+ String.format("%02d", month) + "/"
-				+ String.format("%02d", date) + "/" + articleName
+				+ String.format("%02d", date) + "/" + articleName[articleNameId]
 				+ String.format("%02d", articleId) + ".html";
 
 		return url;
@@ -70,7 +80,8 @@ public class DivainaGenerator {
 		URL url = new URL(urlString);
 		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
 				"cache.mrt.ac.lk", 3128)); // or whatever your proxy is
-		HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
+//		HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
+		HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
 		try {
 			uc.connect();
@@ -87,17 +98,26 @@ public class DivainaGenerator {
 			articleId++;
 			return doc;
 		} catch (IOException e) {
-			dt = dt.plusDays(1);
-			year = dt.getYear();
-			month = dt.getMonthOfYear();
-			date = dt.getDayOfMonth();
-			articleId = 1;
 			
-			if(dt.isBefore(dayAfterEndDate) ){
+			if(articleNameId<articleName.length-1){
+				articleNameId++;
+				articleId = 1;
 				return fetchPage();
 			}else{
-				return null;
+				articleNameId=0;
+				dt = dt.plusDays(1);
+				year = dt.getYear();
+				month = dt.getMonthOfYear();
+				date = dt.getDayOfMonth();
+				articleId = 1;
+				
+				if(dt.isBefore(dayAfterEndDate) ){
+					return fetchPage();
+				}else{
+					return null;
+				}
 			}
+			
 		}
 
 	}

@@ -1,10 +1,8 @@
 package corpus.sinhala.crowler;
 
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -19,6 +17,7 @@ import org.apache.axiom.om.util.StAXUtils;
 
 //import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
 
+import corpus.sinhala.crowler.parser.DivainaParser;
 import corpus.sinhala.crowler.parser.LankadeepaParser;
 import corpus.sinhala.crowler.parser.NamaskaraParser;
 import corpus.sinhala.crowler.parser.Parser;
@@ -85,7 +84,7 @@ public class XMLFileWriter {
 	
 	public void addDocument(String page, String url) throws IOException, XMLStreamException{
 //		documentQueue.add(new Parser(page));
-		Parser parser = new NamaskaraParser(page, url);
+		Parser parser = new DivainaParser(page, url);
 		
 		OMElement doc = factory.createOMElement(postName);
 		
@@ -113,7 +112,12 @@ public class XMLFileWriter {
 		doc.addChild(topic);
 		
 		OMElement author = factory.createOMElement(authorName);
-		author.setText(parser.getAuthor());
+		try{
+			author.setText(parser.getAuthor());
+		}catch(Exception e){
+			author.setText("");
+		}
+		
 		doc.addChild(author);
 		
 		OMElement content = factory.createOMElement(contentName);

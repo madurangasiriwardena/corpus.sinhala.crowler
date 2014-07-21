@@ -26,7 +26,7 @@ public class LocalDataCollectorCrawler extends WebCrawler {
 
 	CrawlStat myCrawlStat;
 	XMLFileWriter xfw;
-	String seed;
+	String base;
 
 	public LocalDataCollectorCrawler() throws IOException {
 		myCrawlStat = new CrawlStat();
@@ -34,11 +34,11 @@ public class LocalDataCollectorCrawler extends WebCrawler {
 
 		Properties prop = new Properties();
 		InputStream input;
-		seed = "";
+		base = "";
 		try {
 			input = new FileInputStream("config.properties");
 			prop.load(input);
-			seed = prop.getProperty("seed");
+			base = prop.getProperty("base");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -50,7 +50,7 @@ public class LocalDataCollectorCrawler extends WebCrawler {
 	public boolean shouldVisit(WebURL url) {
 
 		String href = url.getURL().toLowerCase();
-		return !filters.matcher(href).matches() && href.startsWith(seed);
+		return !filters.matcher(href).matches() && href.startsWith(base);
 	}
 
 	@Override
