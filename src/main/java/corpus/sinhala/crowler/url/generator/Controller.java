@@ -10,7 +10,7 @@ import corpus.sinhala.crowler.XMLFileWriter;
 
 public class Controller {
 	public static void main(String args[]) throws IOException, XMLStreamException{
-		DivainaGenerator dg = new DivainaGenerator(2010, 2010, 1, 1, 1, 5);
+		DivainaGenerator dg = new DivainaGenerator(2010, 2010, 1, 1, 1, 2);
 		XMLFileWriter xfw = new XMLFileWriter();
 
 		Document doc;

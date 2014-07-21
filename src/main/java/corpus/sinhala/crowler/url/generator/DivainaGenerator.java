@@ -5,12 +5,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
+import java.net.UnknownHostException;
 
 import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+
+import corpus.sinhala.crowler.network.NetworkConnector;
 
 public class DivainaGenerator {
 	int sYear;
@@ -30,6 +34,8 @@ public class DivainaGenerator {
 	DateTime dt;
 	DateTime endDate;
 	DateTime dayAfterEndDate;
+	
+	NetworkConnector nc;
 
 	public DivainaGenerator(int sYear, int eYear, int sMonth, int eMonth,
 			int sDate, int eDate) {
@@ -63,6 +69,13 @@ public class DivainaGenerator {
 		endDate = new DateTime(eYear, eMonth, eDate, 0, 0, 0, 0);
 		System.out.println("To "+endDate);
 		dayAfterEndDate = endDate.plusDays(1);
+		
+		nc = NetworkConnector.getInstance();
+		try {
+			nc.connect();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public String generator() {
@@ -74,9 +87,8 @@ public class DivainaGenerator {
 		return url;
 	}
 
-	public Document fetchPage() throws IOException {
+	public Document fetchPage() throws IOException{
 		String urlString = generator();
-//		System.out.println(urlString);
 		URL url = new URL(urlString);
 		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
 				"cache.mrt.ac.lk", 3128)); // or whatever your proxy is
@@ -104,6 +116,11 @@ public class DivainaGenerator {
 				articleId = 1;
 				return fetchPage();
 			}else{
+				try{
+					nc.send(year + "/" + String.format("%02d", month) + "/" + String.format("%02d", date));
+				}catch(Exception e1){
+					return null;
+				}
 				articleNameId=0;
 				dt = dt.plusDays(1);
 				year = dt.getYear();
@@ -114,6 +131,14 @@ public class DivainaGenerator {
 				if(dt.isBefore(dayAfterEndDate) ){
 					return fetchPage();
 				}else{
+					try{
+						nc.send(year + "/" + String.format("%02d", month) + "/" + String.format("%02d", date));
+						nc.send("close");
+						nc.close();
+					}catch(Exception e1){
+						return null;
+					}
+					
 					return null;
 				}
 			}
