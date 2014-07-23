@@ -21,16 +21,19 @@ public class TestServer {
 	}
 	
 	public void receive() throws IOException{
-		ServerSocket serverSocket = new ServerSocket(1111);
+		ServerSocket serverSocket = new ServerSocket(12345);
 	    System.out.println("Server socket created");
 	    Socket socket = serverSocket.accept();
 	    System.out.println("Socket accepted");
 	    BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 	    String date;
-	    while((date = input.readLine()) != null || !date.equalsIgnoreCase("close")){
+	    while(!(date = input.readLine()).equalsIgnoreCase("close")){
 	    	System.out.println("Input: " + date);
+	    	if(socket.isClosed()){
+	    		System.out.println("aaaaaaaaaaaaaaaaa");
+	    	}
 	    }
-	    
+	    System.out.println("close");
 	    socket.close();
 	    serverSocket.close();
 	}

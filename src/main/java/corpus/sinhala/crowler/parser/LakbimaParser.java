@@ -1,4 +1,4 @@
-package crawler;
+package corpus.sinhala.crowler.parser;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

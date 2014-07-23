@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.Observable;
 
 import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
@@ -16,7 +17,7 @@ import org.jsoup.nodes.Document;
 
 import corpus.sinhala.crowler.network.NetworkConnector;
 
-public class DivainaGenerator {
+public class DivainaGenerator extends Observable{
 	int sYear;
 	int eYear;
 	int sMonth;
@@ -38,7 +39,7 @@ public class DivainaGenerator {
 	NetworkConnector nc;
 
 	public DivainaGenerator(int sYear, int eYear, int sMonth, int eMonth,
-			int sDate, int eDate) {
+			int sDate, int eDate, String host, int port) {
 		// System.setProperty("http.proxyHost", "cache.mrt.ac.lk");
 		// System.setProperty("http.proxyPort", "3128");
 
@@ -72,7 +73,7 @@ public class DivainaGenerator {
 		
 		nc = NetworkConnector.getInstance();
 		try {
-			nc.connect();
+			nc.connect(host, port);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -118,7 +119,9 @@ public class DivainaGenerator {
 			}else{
 				try{
 					nc.send(year + "/" + String.format("%02d", month) + "/" + String.format("%02d", date));
-				}catch(Exception e1){
+					setChanged();
+				    notifyObservers();
+				}catch(IOException e1){
 					return null;
 				}
 				articleNameId=0;
@@ -135,7 +138,9 @@ public class DivainaGenerator {
 						nc.send(year + "/" + String.format("%02d", month) + "/" + String.format("%02d", date));
 						nc.send("close");
 						nc.close();
-					}catch(Exception e1){
+						setChanged();
+					    notifyObservers();
+					}catch(IOException e1){
 						return null;
 					}
 					

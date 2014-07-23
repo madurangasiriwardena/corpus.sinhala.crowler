@@ -75,7 +75,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>corpus.sinhala.crowler.LocalDataCollectorController</mainClass>
+							<mainClass>corpus.sinhala.crowler.url.generator.Controller</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
