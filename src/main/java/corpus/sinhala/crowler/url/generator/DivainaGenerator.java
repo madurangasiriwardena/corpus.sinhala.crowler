@@ -135,7 +135,6 @@ public class DivainaGenerator extends Observable{
 					return fetchPage();
 				}else{
 					try{
-						nc.send(year + "/" + String.format("%02d", month) + "/" + String.format("%02d", date));
 						nc.send("close");
 						nc.close();
 						setChanged();
