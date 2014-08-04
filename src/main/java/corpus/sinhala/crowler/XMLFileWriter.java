@@ -25,8 +25,6 @@ import corpus.sinhala.crowler.parser.NamaskaraParser;
 import corpus.sinhala.crowler.parser.Parser;
 import javanet.staxutils.IndentingXMLStreamWriter;
 
-import edu.uci.ics.crawler4j.crawler.Page;
-
 public class XMLFileWriter implements Observer {
 	private int documentCounter;
 	private String filePrefix;
@@ -63,10 +61,6 @@ public class XMLFileWriter implements Observer {
 	}
 
 	public XMLFileWriter(String location) throws IOException {
-		init();
-		factory = OMAbstractFactory.getOMFactory();
-		root = factory.createOMElement(rootName);
-		
 		String temp[] = location.split("/");
 		String createDir = "";
 		if(!location.startsWith("/")){
@@ -81,15 +75,18 @@ public class XMLFileWriter implements Observer {
 			dir.mkdir();
 		}
 		filePath = createDir;
-		System.out.println(filePath);
+		
+		
+		init();
+		factory = OMAbstractFactory.getOMFactory();
+		root = factory.createOMElement(rootName);
+		
 	}
 
 	private void init() {
 		documentCounter = 0;
 		filePrefix = "L";
 		fileCounter = 0;
-		baseFolder = "data";
-		filePath = baseFolder + "/xml";
 		maxDocumentCounter = 100;
 		rootName = new QName("root");
 		linkName = new QName("link");
@@ -103,16 +100,19 @@ public class XMLFileWriter implements Observer {
 		dayName = new QName("day");
 
 		docs = new ArrayList<>();
+		
+		fileCounter = new File(filePath).list().length;
+		System.out.println(fileCounter);
+		System.out.println(filePath);
+		
 	}
 
 	public int getDocumentCounter() {
 		 return documentCounter;
-//		return docs.size();
 	}
 
 	public void addDocument(String page, String url) throws IOException,
 			XMLStreamException {
-		// documentQueue.add(new Parser(page));
 		Parser parser = new DivainaParser(page, url);
 
 		OMElement doc = factory.createOMElement(postName);
@@ -158,37 +158,8 @@ public class XMLFileWriter implements Observer {
 
 	}
 
-	public void addAndWriteToFile() {
-		for (int i = 0; i < docs.size(); i++) {
-
-			root.addChild(docs.get(i));
-
-			documentCounter++;
-			System.out
-					.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-							+ documentCounter);
-			if (documentCounter % maxDocumentCounter == 0) {
-				try {
-					writeToFile();
-				} catch (IOException | XMLStreamException e) {
-				}
-				documentCounter = 0;
-				root = factory.createOMElement(rootName);
-			}
-		}
-		
-		if(documentCounter>0){
-			try {
-				writeToFile();
-			} catch (IOException | XMLStreamException e) {
-
-			}
-		}
-		docs.clear();
-	}
-
 	public void writeToFile() throws IOException, XMLStreamException {
-		fileCounter = new File(filePath).list().length;
+		
 		path = filePath + "/" + filePrefix + String.format("%04d", fileCounter)
 				+ ".xml";
 		OutputStream out = new FileOutputStream(path);
@@ -197,6 +168,16 @@ public class XMLFileWriter implements Observer {
 		root.serialize(writer);
 		writer.flush();
 		fileCounter++;
+	}
+	
+	public void writeToFileTemp() throws IOException, XMLStreamException {
+		path = filePath + "/" + filePrefix + String.format("%04d", fileCounter)
+				+ ".xml";
+		OutputStream out = new FileOutputStream(path);
+		XMLStreamWriter writer = StAXUtils.createXMLStreamWriter(out);
+		writer = new IndentingXMLStreamWriter(writer);
+		root.serialize(writer);
+		writer.flush();
 	}
 
 	private void createFolder() throws IOException {
@@ -226,11 +207,18 @@ public class XMLFileWriter implements Observer {
 				root = factory.createOMElement(rootName);
 			}
 		}
+		
+		if(documentCounter>0){
+			try {
+				writeToFileTemp();
+			} catch (IOException | XMLStreamException e) {
+			}
+		}
 		docs.clear();
 
 	}
 
 	 public static void main(String[] args) throws IOException {
-	 XMLFileWriter a = new XMLFileWriter("/home/maduranga/bb/");
+//	 XMLFileWriter a = new XMLFileWriter("/home/maduranga/bb/");
 	 }
 }

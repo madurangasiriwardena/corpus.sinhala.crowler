@@ -48,9 +48,6 @@ public class Controller {
 			}
 			
 		}
-		
-		if (xfw.getDocumentCounter() > 0) {
-			xfw.writeToFile();
-		}
+
 	}
 }
