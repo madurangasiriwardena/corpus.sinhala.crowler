@@ -27,11 +27,9 @@ public class TestServer {
 	    System.out.println("Socket accepted");
 	    BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 	    String date;
-	    while(!(date = input.readLine()).equalsIgnoreCase("close")){
+	    while((date = input.readLine())!=null && !date.equalsIgnoreCase("close")){
 	    	System.out.println("Input: " + date);
-	    	if(socket.isClosed()){
-	    		System.out.println("aaaaaaaaaaaaaaaaa");
-	    	}
+
 	    }
 	    System.out.println("close");
 	    socket.close();
