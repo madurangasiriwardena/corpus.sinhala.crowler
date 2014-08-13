@@ -93,8 +93,8 @@ public class DivainaGenerator extends Observable{
 		URL url = new URL(urlString);
 		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
 				"cache.mrt.ac.lk", 3128)); // or whatever your proxy is
-		HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
-//		HttpURLConnection uc = (HttpURLConnection) url.openConnection();
+//		HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
+		HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
 		try {
 			uc.connect();
