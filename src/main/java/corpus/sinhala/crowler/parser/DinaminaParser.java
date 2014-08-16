@@ -37,7 +37,13 @@ public class DinaminaParser implements Parser{
 	}
 
 	public String getContent(){
-		return p.text();
+		Elements contents = p.select("p");
+		String content="";
+		for(int i=0;i<contents.size();i++){
+			if(!contents.get(i).attr("class").equals("navS"))
+			content = content + contents.get(i).text();
+		}
+		return content;
 	}
 
 	public String getUrl(){
