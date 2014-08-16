@@ -165,7 +165,9 @@ public class DinaminaGenerator extends Observable {
 				for(int i=0; i<urlList.size(); i++){
 					String base = baseGenerator();
 //					System.out.println(base+urlList.get(i).attr("href"));
-					urls.add(base+urlList.get(i).attr("href"));
+					String tempUrl = urlList.get(i).attr("href");
+					if(tempUrl.contains("_art.asp?fn=" + articleName[articleNameId]) && !urls.contains(base+tempUrl))
+					urls.add(base+tempUrl);
 				}
 //				System.out.println("-----------------------");
 			} catch (IOException e) {
