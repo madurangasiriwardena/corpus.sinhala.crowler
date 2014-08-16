@@ -40,7 +40,7 @@ public class DinaminaParser implements Parser{
 		Elements contents = p.select("p");
 		String content="";
 		for(int i=0;i<contents.size();i++){
-			if(!contents.get(i).attr("class").equals("navS"))
+			if(contents.get(i).attr("class").equals(""))
 			content = content + contents.get(i).text();
 		}
 		return content;
