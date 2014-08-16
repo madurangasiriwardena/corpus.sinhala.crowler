@@ -1,4 +1,4 @@
-package corpus.sinhala.crowler.parser;
+package corpus.sinhala.crawler.parser;
 
 public interface Parser {
 	

@@ -1,4 +1,4 @@
-package corpus.sinhala.crowler;
+package corpus.sinhala.crawler;
 
 public class CrawlStat {
     private int totalProcessedPages;

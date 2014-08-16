@@ -1,18 +1,18 @@
-package corpus.sinhala.crowler.parser;
+package corpus.sinhala.crawler.parser;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class SarasawiyaParser implements Parser {
+public class NamaskaraParser implements Parser {
 	Document doc;
 	String url;
 	Element titleElement;
 	Element p;
 	String[] arr;
 
-	public SarasawiyaParser(String page, String url){
+	public NamaskaraParser(String page, String url){
 		doc = Jsoup.parse(page);
 		this.url = url;
 		titleElement = doc.select("h2").first();
@@ -54,24 +54,25 @@ public class SarasawiyaParser implements Parser {
 	}
 
 	public String getYear(){
-		if(arr.length==7)
-			return arr[3];
-		else
-			return "";
+		if(arr.length == 7){
+			return arr[4].split("=")[1];
+		}else if(arr.length == 4){
+			return arr[3].split("%")[0].split("=")[1];
+		}
+		return "";
 	}
 
 	public String getMonth(){
-		if(arr.length==7)
-			return arr[4];
-		else
-			return "";
+		if(arr.length == 7){
+			return arr[5];
+		}else if(arr.length == 4){
+			return arr[3].split("F")[1].split("&")[0];
+		}
+		return "";
 	}
 
 	public String getDate(){
-		if(arr.length==7)
-			return arr[5];
-		else
-			return "";
+		return "";
 	}
 
 }

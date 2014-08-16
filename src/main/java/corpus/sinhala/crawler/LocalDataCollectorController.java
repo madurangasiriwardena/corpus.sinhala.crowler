@@ -1,4 +1,4 @@
-package corpus.sinhala.crowler;
+package corpus.sinhala.crawler;
 
 import java.io.FileInputStream;
 import java.io.IOException;

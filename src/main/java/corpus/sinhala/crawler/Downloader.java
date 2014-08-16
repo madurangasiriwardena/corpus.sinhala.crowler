@@ -1,4 +1,4 @@
-package corpus.sinhala.crowler;
+package corpus.sinhala.crawler;
 
 import org.apache.http.HttpStatus;
 

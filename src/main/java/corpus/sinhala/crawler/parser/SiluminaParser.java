@@ -1,49 +1,44 @@
-package corpus.sinhala.crowler.parser;
+package corpus.sinhala.crawler.parser;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class AlokaUParser implements Parser {
+public class SiluminaParser implements Parser{
 	Document doc;
 	String url;
 	Element titleElement;
 	Element p;
 	String[] arr;
 
-	public AlokaUParser(String page, String url){
+	public SiluminaParser(String page, String url){
 		doc = Jsoup.parse(page);
 		this.url = url;
 		titleElement = doc.select("h2").first();
-		if(titleElement.select("img").size()==0){
-			titleElement = doc.select("h2").first();
-		}else{
-			titleElement = doc.select("h2").get(1);
-		}
+
 		p = titleElement.parent();
 		arr = url.split("/");
 
 	}
 
 	public String getTitle(){
-		return titleElement.text();
+		return doc.select("title").first().text();
 	}
 
 	public String getAuthor(){
-		String author;
-		if(doc.select("p[class=byline]").first() == null){
-			author = "";
-		}else{
-			author = doc.select("p[class=byline]").first().text();
+		Elements AuthorElement = doc.select("p[class=byline]");
+		if(AuthorElement.size()>0){
+			return AuthorElement.first().text();
 		}
-		return author;
+		return "";
 	}
 
 	public String getContent(){
 		Elements contents = p.select("p");
 		String content="";
 		for(int i=0;i<contents.size();i++){
+			if(!contents.get(i).attr("class").equals("subIN"))
 			content = content + contents.get(i).text();
 		}
 		return content;
@@ -54,15 +49,15 @@ public class AlokaUParser implements Parser {
 	}
 
 	public String getYear(){
-		return arr[4];
+		return arr[3];
 	}
 
 	public String getMonth(){
-		return arr[5];
+		return arr[4];
 	}
 
 	public String getDate(){
-		return arr[6];
+		return arr[5];
 	}
 
 }
