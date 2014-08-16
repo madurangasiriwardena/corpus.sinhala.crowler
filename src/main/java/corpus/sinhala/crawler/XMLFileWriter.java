@@ -19,6 +19,7 @@ import org.apache.axiom.om.util.StAXUtils;
 
 //import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
 
+import corpus.sinhala.crawler.parser.DinaminaParser;
 import corpus.sinhala.crawler.parser.DivainaParser;
 import corpus.sinhala.crawler.parser.LankadeepaParser;
 import corpus.sinhala.crawler.parser.NamaskaraParser;
@@ -113,7 +114,7 @@ public class XMLFileWriter implements Observer {
 
 	public void addDocument(String page, String url) throws IOException,
 			XMLStreamException {
-		Parser parser = new DivainaParser(page, url);
+		Parser parser = new DinaminaParser(page, url);
 
 		OMElement doc = factory.createOMElement(postName);
 
