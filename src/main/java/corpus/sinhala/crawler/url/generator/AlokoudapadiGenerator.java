@@ -5,11 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
-import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Queue;
@@ -17,12 +14,11 @@ import java.util.Queue;
 import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import corpus.sinhala.crawler.network.NetworkConnector;
 
-public class BuduSaranaGenerator extends Observable {
+public class AlokoudapadiGenerator extends Observable{
 	int sYear;
 	int eYear;
 	int sMonth;
@@ -46,7 +42,7 @@ public class BuduSaranaGenerator extends Observable {
 
 	NetworkConnector nc;
 
-	public BuduSaranaGenerator(int sYear, int eYear, int sMonth, int eMonth,
+	public AlokoudapadiGenerator(int sYear, int eYear, int sMonth, int eMonth,
 			int sDate, int eDate, String host, int port) {
 		// System.setProperty("http.proxyHost", "cache.mrt.ac.lk");
 		// System.setProperty("http.proxyPort", "3128");
@@ -62,12 +58,9 @@ public class BuduSaranaGenerator extends Observable {
 		month = sMonth;
 		date = sDate;
 		articleId = 1;
-		articleName = new String[4];
-		articleName[0] = "main_news";
-		articleName[1] = "main_vision";
-		articleName[2] = "main_features";
-		articleName[3] = "main_temple";
-//		articleName[4] = "e";
+		articleName = new String[1];
+		articleName[0] = "";
+		
 		articleNameId = 0;
 		
 		listEmpty = true;
@@ -88,7 +81,7 @@ public class BuduSaranaGenerator extends Observable {
 	}
 
 	public String baseGenerator() {
-		String url = "http://www.lakehouse.lk/budusarana/" + year + "/"
+		String url = "http://www.lakehouse.lk/alokoudapadi" + year + "/"
 				+ String.format("%02d", month) + "/"
 				+ String.format("%02d", date) + "/";
 
@@ -96,11 +89,11 @@ public class BuduSaranaGenerator extends Observable {
 	}
 	
 	public String listGenerator() {
-		String url = "http://www.lakehouse.lk/budusarana/" + year + "/"
+		String url = "http://www.lakehouse.lk/alokoudapadi" + year + "/"
 				+ String.format("%02d", month) + "/"
 				+ String.format("%02d", date) + "/"
 				+ articleName[articleNameId]
-				+ ".asp";
+				+ "_art.asp?fn=a";
 
 		return url;
 	}
@@ -157,13 +150,12 @@ public class BuduSaranaGenerator extends Observable {
 				}
 				String base = baseGenerator();
 				Document doc = Jsoup.parse(String.valueOf(tmp));
-				urls.add(base + doc.select("a[class=fullstory]").get(1).attr("href"));
-				Elements urlList = doc.select("li");
+				Elements urlList = doc.select("a[class=navS]");
 //				System.out.println("----------------------");
 				for(int i=0; i<urlList.size(); i++){
 					
 //					System.out.println(base+urlList.get(i).attr("href"));
-					String tempUrl = urlList.get(i).select("a").get(0).attr("attr");
+					String tempUrl = urlList.get(i).attr("href");
 					if(tempUrl.contains("_art.asp?fn=" + articleName[articleNameId]) && !urls.contains(base+tempUrl))
 					urls.add(base+tempUrl);
 				}
