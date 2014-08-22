@@ -44,9 +44,7 @@ public class AlokoudapadiGenerator extends Observable{
 
 	public AlokoudapadiGenerator(int sYear, int eYear, int sMonth, int eMonth,
 			int sDate, int eDate, String host, int port) {
-		// System.setProperty("http.proxyHost", "cache.mrt.ac.lk");
-		// System.setProperty("http.proxyPort", "3128");
-
+		
 		this.sYear = sYear;
 		this.eYear = eYear;
 		this.sMonth = sMonth;
@@ -81,7 +79,7 @@ public class AlokoudapadiGenerator extends Observable{
 	}
 
 	public String baseGenerator() {
-		String url = "http://www.lakehouse.lk/alokoudapadi" + year + "/"
+		String url = "http://www.lakehouse.lk/alokoudapadi/" + year + "/"
 				+ String.format("%02d", month) + "/"
 				+ String.format("%02d", date) + "/";
 
@@ -89,7 +87,7 @@ public class AlokoudapadiGenerator extends Observable{
 	}
 	
 	public String listGenerator() {
-		String url = "http://www.lakehouse.lk/alokoudapadi" + year + "/"
+		String url = "http://www.lakehouse.lk/alokoudapadi/" + year + "/"
 				+ String.format("%02d", month) + "/"
 				+ String.format("%02d", date) + "/"
 				+ articleName[articleNameId]
@@ -133,10 +131,9 @@ public class AlokoudapadiGenerator extends Observable{
 			}
 			String urlString = listGenerator();
 			URL url = new URL(urlString);
-			System.out.println("-----"+urlString);
 			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
 					"cache.mrt.ac.lk", 3128));
-//			 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
+//    		 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
 			HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
 			try {
@@ -151,28 +148,23 @@ public class AlokoudapadiGenerator extends Observable{
 				String base = baseGenerator();
 				Document doc = Jsoup.parse(String.valueOf(tmp));
 				Elements urlList = doc.select("a[class=navS]");
-//				System.out.println("----------------------");
 				for(int i=0; i<urlList.size(); i++){
 					
-//					System.out.println(base+urlList.get(i).attr("href"));
 					String tempUrl = urlList.get(i).attr("href");
 					if(tempUrl.contains("_art.asp?fn=" + articleName[articleNameId]) && !urls.contains(base+tempUrl))
 					urls.add(base+tempUrl);
 				}
-//				System.out.println("-----------------------");
 			} catch (IOException e) {
 			}
 			articleNameId++;
 			System.out.println(urls.isEmpty());
 		}
 		
-//		System.out.println(urls.isEmpty());
 		String urlString = urls.remove();
 		URL url = new URL(urlString);
-//		System.out.println(urlString);
 		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
 				"cache.mrt.ac.lk", 3128));
-//		 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
+//  	 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
 		HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
 		try {
