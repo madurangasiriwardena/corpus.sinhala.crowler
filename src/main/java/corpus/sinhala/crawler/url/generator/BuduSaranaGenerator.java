@@ -48,9 +48,6 @@ public class BuduSaranaGenerator extends Observable {
 
 	public BuduSaranaGenerator(int sYear, int eYear, int sMonth, int eMonth,
 			int sDate, int eDate, String host, int port) {
-		// System.setProperty("http.proxyHost", "cache.mrt.ac.lk");
-		// System.setProperty("http.proxyPort", "3128");
-
 		this.sYear = sYear;
 		this.eYear = eYear;
 		this.sMonth = sMonth;
@@ -67,7 +64,6 @@ public class BuduSaranaGenerator extends Observable {
 		articleName[1] = "main_vision";
 		articleName[2] = "main_features";
 		articleName[3] = "main_temple";
-//		articleName[4] = "e";
 		articleNameId = 0;
 		
 		listEmpty = true;
@@ -143,7 +139,6 @@ public class BuduSaranaGenerator extends Observable {
 			System.out.println("-----"+urlString);
 			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
 					"cache.mrt.ac.lk", 3128));
-//			 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
 			HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
 			try {
@@ -157,30 +152,26 @@ public class BuduSaranaGenerator extends Observable {
 				}
 				String base = baseGenerator();
 				Document doc = Jsoup.parse(String.valueOf(tmp));
-				urls.add(base + doc.select("a[class=fullstory]").get(1).attr("href"));
+				urls.add(base + doc.select("a[class=fullstory]").get(0).attr("href"));
 				Elements urlList = doc.select("li");
-//				System.out.println("----------------------");
+				System.out.println(urlList.size());
 				for(int i=0; i<urlList.size(); i++){
-					
-//					System.out.println(base+urlList.get(i).attr("href"));
-					String tempUrl = urlList.get(i).select("a").get(0).attr("attr");
-					if(tempUrl.contains("_art.asp?fn=" + articleName[articleNameId]) && !urls.contains(base+tempUrl))
+					String tempUrl = urlList.get(i).select("h2").get(0).select("a").get(0).attr("href");
+					if(!urls.contains(base+tempUrl)){
 					urls.add(base+tempUrl);
+					System.out.println(base+tempUrl );
+					}
 				}
-//				System.out.println("-----------------------");
 			} catch (IOException e) {
 			}
 			articleNameId++;
-			System.out.println(urls.isEmpty());
+			//System.out.println(urls.isEmpty());
 		}
 		
-//		System.out.println(urls.isEmpty());
 		String urlString = urls.remove();
 		URL url = new URL(urlString);
-//		System.out.println(urlString);
 		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
 				"cache.mrt.ac.lk", 3128));
-//		 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
 		HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
 		try {
