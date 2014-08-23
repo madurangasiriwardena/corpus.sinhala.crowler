@@ -115,9 +115,10 @@ public class DinaminaGenerator extends Observable {
 			if(articleNameId>=articleName.length){
 				
 				try{
+					String message = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", date);
 					nc.send(year + "/" + String.format("%02d", month) + "/" + String.format("%02d", date));
 					setChanged();
-				    notifyObservers();
+				    notifyObservers(message);
 				}catch(IOException e1){
 					return null;
 				}
@@ -131,8 +132,6 @@ public class DinaminaGenerator extends Observable {
 					try{
 						nc.send("close");
 						nc.close();
-						setChanged();
-					    notifyObservers();
 					}catch(IOException e1){
 						return null;
 					}
@@ -145,8 +144,8 @@ public class DinaminaGenerator extends Observable {
 			System.out.println("-----"+urlString);
 			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
 					"cache.mrt.ac.lk", 3128));
-//			 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
-			HttpURLConnection uc = (HttpURLConnection) url.openConnection();
+			 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
+//			HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
 			try {
 				uc.connect();
@@ -182,8 +181,8 @@ public class DinaminaGenerator extends Observable {
 //		System.out.println(urlString);
 		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
 				"cache.mrt.ac.lk", 3128));
-//		 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
-		HttpURLConnection uc = (HttpURLConnection) url.openConnection();
+		 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
+//		HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
 		try {
 			uc.connect();

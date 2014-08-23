@@ -34,12 +34,12 @@ public class Controller {
 		int sDate = Integer.parseInt(temp1[2]);
 		int eDate = Integer.parseInt(temp2[2]);
 //		DivainaGenerator dg = new DivainaGenerator(2010, 2010, 1, 1, 1, 4, "127.0.0.1", 12345);
-		DinaminaGenerator dg = new DinaminaGenerator(sYear, eYear, sMonth, eMonth, sDate, eDate, host, port);
+		BuduSaranaGenerator sg = new BuduSaranaGenerator(sYear, eYear, sMonth, eMonth, sDate, eDate, host, port);
 		XMLFileWriter xfw = new XMLFileWriter(saveLocation);
-		dg.addObserver(xfw);
+		sg.addObserver(xfw);
 
 		Document doc;
-		while((doc = dg.fetchPage()) != null){
+		while((doc = sg.fetchPage()) != null){
 			System.out.println(doc.baseUri());
 			try{
 				xfw.addDocument(doc.html(), doc.baseUri());
