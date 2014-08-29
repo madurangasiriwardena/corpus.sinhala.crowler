@@ -71,10 +71,10 @@ public class BuduSaranaGenerator extends Observable {
 		urls = new LinkedList<String>();
 
 		dt = new DateTime(sYear, sMonth, 6, 0, 0, 0, 0);
-//		dt = dt.withDayOfWeek(DateTimeConstants.SUNDAY);
-//		year = dt.getYear();
-//		month = dt.getMonthOfYear();
-//		date = dt.getDayOfMonth();
+		dt = dt.withDayOfWeek(DateTimeConstants.SUNDAY);
+		year = dt.getYear();
+		month = dt.getMonthOfYear();
+		date = dt.getDayOfMonth();
 		System.out.println("Crawling from " + dt);
 		endDate = new DateTime(eYear, eMonth, eDate, 0, 0, 0, 0);
 		System.out.println("To " + endDate);
@@ -122,7 +122,7 @@ public class BuduSaranaGenerator extends Observable {
 					return null;
 				}
 				articleNameId=0;
-				dt = dt.plusMonths(1);
+				dt = dt.plusWeeks(1);
 				year = dt.getYear();
 				month = dt.getMonthOfYear();
 				date = dt.getDayOfMonth();
