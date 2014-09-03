@@ -101,7 +101,7 @@ public class DivainaGenerator extends Observable{
 			String line = null;
 			StringBuffer tmp = new StringBuffer();
 			BufferedReader in = new BufferedReader(new InputStreamReader(
-					uc.getInputStream()));
+					uc.getInputStream(), "UTF-8"));
 			while ((line = in.readLine()) != null) {
 				tmp.append(line);
 			}

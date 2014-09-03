@@ -188,8 +188,7 @@ public class DinaminaGenerator extends Observable {
 			uc.connect();
 			String line = null;
 			StringBuffer tmp = new StringBuffer();
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					uc.getInputStream()));
+			BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream(), "UTF-8"));
 			while ((line = in.readLine()) != null) {
 				tmp.append(line);
 			}
