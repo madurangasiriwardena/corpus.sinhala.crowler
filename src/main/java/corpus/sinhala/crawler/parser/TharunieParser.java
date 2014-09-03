@@ -15,7 +15,7 @@ public class TharunieParser implements Parser{
 
 
 	}
-/*
+
 	public String getTitle(){
 		return doc.select("h2[class=itemTitle]").first().text();
 	}
@@ -80,47 +80,5 @@ public class TharunieParser implements Parser{
 	public String getDate(){
 		return doc.select("span[class=itemDateCreated]").first().text().split(" ")[2].substring(0,2);
 	}
-*/
 
-	@Override
-	public String getContent() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getAuthor() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getUrl() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getYear() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getMonth() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getDate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
