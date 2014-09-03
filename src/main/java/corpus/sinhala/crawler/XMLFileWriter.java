@@ -180,7 +180,7 @@ public class XMLFileWriter implements Observer {
 		path = filePath + "/" + fileName + ".xml";
 		OutputStream out = new FileOutputStream(path);
 		XMLStreamWriter writer = StAXUtils.createXMLStreamWriter(out);
-		writer = new IndentingXMLStreamWriter(writer);
+//		writer = new IndentingXMLStreamWriter(writer);
 		root.serialize(writer);
 		writer.flush();
 		fileCounter++;
