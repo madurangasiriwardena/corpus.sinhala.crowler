@@ -119,7 +119,7 @@ public class XMLFileWriter implements Observer {
 
 	public void addDocument(String page, String url) throws IOException,
 			XMLStreamException {
-		Parser parser = new DinaminaParser(page, url);
+		Parser parser = new NamaskaraParser(page, url);
 
 		OMElement doc = factory.createOMElement(postName);
 
