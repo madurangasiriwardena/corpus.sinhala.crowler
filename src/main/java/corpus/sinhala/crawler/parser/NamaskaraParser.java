@@ -27,6 +27,7 @@ public class NamaskaraParser implements Parser {
 	}
 
 	public String getTitle(){
+		System.out.println(titleElement.text());
 		return titleElement.text();
 	}
 
