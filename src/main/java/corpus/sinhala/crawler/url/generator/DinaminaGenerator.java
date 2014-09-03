@@ -144,8 +144,8 @@ public class DinaminaGenerator extends Observable {
 			System.out.println("-----"+urlString);
 			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
 					"cache.mrt.ac.lk", 3128));
-			 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
-//			HttpURLConnection uc = (HttpURLConnection) url.openConnection();
+//			 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
+			HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
 			try {
 				uc.connect();
@@ -181,8 +181,8 @@ public class DinaminaGenerator extends Observable {
 //		System.out.println(urlString);
 		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
 				"cache.mrt.ac.lk", 3128));
-		 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
-//		HttpURLConnection uc = (HttpURLConnection) url.openConnection();
+//		 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
+		HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
 		try {
 			uc.connect();

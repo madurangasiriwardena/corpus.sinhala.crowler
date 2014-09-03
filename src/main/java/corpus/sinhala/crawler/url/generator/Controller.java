@@ -34,7 +34,7 @@ public class Controller {
 		int sDate = Integer.parseInt(temp1[2]);
 		int eDate = Integer.parseInt(temp2[2]);
 //		DivainaGenerator dg = new DivainaGenerator(2010, 2010, 1, 1, 1, 4, "127.0.0.1", 12345);
-		BuduSaranaGenerator sg = new BuduSaranaGenerator(sYear, eYear, sMonth, eMonth, sDate, eDate, host, port);
+		DinaminaGenerator sg = new DinaminaGenerator(sYear, eYear, sMonth, eMonth, sDate, eDate, host, port);
 		XMLFileWriter xfw = new XMLFileWriter(saveLocation);
 		sg.addObserver(xfw);
 

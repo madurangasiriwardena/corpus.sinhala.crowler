@@ -26,6 +26,7 @@ import corpus.sinhala.crawler.parser.DivainaParser;
 import corpus.sinhala.crawler.parser.LankadeepaParser;
 import corpus.sinhala.crawler.parser.NamaskaraParser;
 import corpus.sinhala.crawler.parser.Parser;
+import corpus.sinhala.crawler.parser.SarasawiyaParser;
 import corpus.sinhala.crawler.parser.SiluminaParser;
 import corpus.sinhala.crawler.url.generator.AlokoudapadiGenerator;
 import javanet.staxutils.IndentingXMLStreamWriter;
@@ -118,7 +119,7 @@ public class XMLFileWriter implements Observer {
 
 	public void addDocument(String page, String url) throws IOException,
 			XMLStreamException {
-		Parser parser = new BudusaranaParser(page, url);
+		Parser parser = new DinaminaParser(page, url);
 
 		OMElement doc = factory.createOMElement(postName);
 
@@ -235,6 +236,7 @@ public class XMLFileWriter implements Observer {
 			writeToFile(message);
 		} catch (IOException | XMLStreamException e) {
 		}
+		root = factory.createOMElement(rootName);
 		
 		docs.clear();
 
