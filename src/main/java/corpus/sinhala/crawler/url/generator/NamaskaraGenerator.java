@@ -100,9 +100,10 @@ public class NamaskaraGenerator extends Observable{
 			if(articleNameId>=articleName.length){
 				
 				try{
+					String message = year + "-" + String.format("%02d", month) + "-01";
 					nc.send(year + "/" + String.format("%02d", month) + "/" + String.format("%02d", date));
 					setChanged();
-				    notifyObservers();
+				    notifyObservers(message);
 				}catch(IOException e1){
 					return null;
 				}
@@ -116,8 +117,6 @@ public class NamaskaraGenerator extends Observable{
 					try{
 						nc.send("close");
 						nc.close();
-						setChanged();
-					    notifyObservers();
 					}catch(IOException e1){
 						return null;
 					}
@@ -168,7 +167,7 @@ public class NamaskaraGenerator extends Observable{
 			String line = null;
 			StringBuffer tmp = new StringBuffer();
 			BufferedReader in = new BufferedReader(new InputStreamReader(
-					uc.getInputStream()));
+					uc.getInputStream(), "UTF-8"));
 			while ((line = in.readLine()) != null) {
 				tmp.append(line);
 			}

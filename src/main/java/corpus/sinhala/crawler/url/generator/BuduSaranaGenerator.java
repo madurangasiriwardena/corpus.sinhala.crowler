@@ -15,6 +15,7 @@ import java.util.Observable;
 import java.util.Queue;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -69,7 +70,11 @@ public class BuduSaranaGenerator extends Observable {
 		listEmpty = true;
 		urls = new LinkedList<String>();
 
-		dt = new DateTime(sYear, sMonth, sDate, 0, 0, 0, 0);
+		dt = new DateTime(sYear, sMonth, 6, 0, 0, 0, 0);
+		dt = dt.withDayOfWeek(DateTimeConstants.SUNDAY);
+		year = dt.getYear();
+		month = dt.getMonthOfYear();
+		date = dt.getDayOfMonth();
 		System.out.println("Crawling from " + dt);
 		endDate = new DateTime(eYear, eMonth, eDate, 0, 0, 0, 0);
 		System.out.println("To " + endDate);
@@ -109,14 +114,15 @@ public class BuduSaranaGenerator extends Observable {
 			if(articleNameId>=articleName.length){
 				
 				try{
+					String message = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", date);
 					nc.send(year + "/" + String.format("%02d", month) + "/" + String.format("%02d", date));
 					setChanged();
-				    notifyObservers();
+				    notifyObservers(message);
 				}catch(IOException e1){
 					return null;
 				}
 				articleNameId=0;
-				dt = dt.plusDays(1);
+				dt = dt.plusWeeks(1);
 				year = dt.getYear();
 				month = dt.getMonthOfYear();
 				date = dt.getDayOfMonth();
@@ -125,8 +131,6 @@ public class BuduSaranaGenerator extends Observable {
 					try{
 						nc.send("close");
 						nc.close();
-						setChanged();
-					    notifyObservers();
 					}catch(IOException e1){
 						return null;
 					}
@@ -139,6 +143,7 @@ public class BuduSaranaGenerator extends Observable {
 			System.out.println("-----"+urlString);
 			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
 					"cache.mrt.ac.lk", 3128));
+//			HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
 			HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
 			try {
@@ -172,6 +177,7 @@ public class BuduSaranaGenerator extends Observable {
 		URL url = new URL(urlString);
 		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
 				"cache.mrt.ac.lk", 3128));
+//		HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
 		HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
 		try {
@@ -179,7 +185,7 @@ public class BuduSaranaGenerator extends Observable {
 			String line = null;
 			StringBuffer tmp = new StringBuffer();
 			BufferedReader in = new BufferedReader(new InputStreamReader(
-					uc.getInputStream()));
+					uc.getInputStream(), "UTF-8"));
 			while ((line = in.readLine()) != null) {
 				tmp.append(line);
 			}

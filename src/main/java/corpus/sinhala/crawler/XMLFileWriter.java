@@ -19,11 +19,16 @@ import org.apache.axiom.om.util.StAXUtils;
 
 //import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
 
+import corpus.sinhala.crawler.parser.AlokaUParser;
+import corpus.sinhala.crawler.parser.BudusaranaParser;
 import corpus.sinhala.crawler.parser.DinaminaParser;
 import corpus.sinhala.crawler.parser.DivainaParser;
 import corpus.sinhala.crawler.parser.LankadeepaParser;
 import corpus.sinhala.crawler.parser.NamaskaraParser;
 import corpus.sinhala.crawler.parser.Parser;
+import corpus.sinhala.crawler.parser.SarasawiyaParser;
+import corpus.sinhala.crawler.parser.SiluminaParser;
+import corpus.sinhala.crawler.url.generator.AlokoudapadiGenerator;
 import javanet.staxutils.IndentingXMLStreamWriter;
 
 public class XMLFileWriter implements Observer {
@@ -114,7 +119,7 @@ public class XMLFileWriter implements Observer {
 
 	public void addDocument(String page, String url) throws IOException,
 			XMLStreamException {
-		Parser parser = new DinaminaParser(page, url);
+		Parser parser = new NamaskaraParser(page, url);
 
 		OMElement doc = factory.createOMElement(postName);
 
@@ -171,6 +176,16 @@ public class XMLFileWriter implements Observer {
 		fileCounter++;
 	}
 	
+	public void writeToFile(String fileName) throws IOException, XMLStreamException {
+		path = filePath + "/" + fileName + ".xml";
+		OutputStream out = new FileOutputStream(path);
+		XMLStreamWriter writer = StAXUtils.createXMLStreamWriter(out);
+		writer = new IndentingXMLStreamWriter(writer);
+		root.serialize(writer);
+		writer.flush();
+		fileCounter++;
+	}
+	
 	public void writeToFileTemp() throws IOException, XMLStreamException {
 		path = filePath + "/" + filePrefix + String.format("%04d", fileCounter)
 				+ ".xml";
@@ -191,6 +206,8 @@ public class XMLFileWriter implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
+		String message = (String)arg;
+		
 		for (int i = 0; i < docs.size(); i++) {
 
 			root.addChild(docs.get(i));
@@ -199,22 +216,28 @@ public class XMLFileWriter implements Observer {
 			System.out
 					.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 							+ documentCounter);
-			if (documentCounter % maxDocumentCounter == 0) {
-				try {
-					writeToFile();
-				} catch (IOException | XMLStreamException e) {
-				}
-				documentCounter = 0;
-				root = factory.createOMElement(rootName);
-			}
+//			if (documentCounter % maxDocumentCounter == 0) {
+//				try {
+//					writeToFile();
+//				} catch (IOException | XMLStreamException e) {
+//				}
+//				documentCounter = 0;
+//				root = factory.createOMElement(rootName);
+//			}
 		}
 		
-		if(documentCounter>0){
-			try {
-				writeToFileTemp();
-			} catch (IOException | XMLStreamException e) {
-			}
+//		if(documentCounter>0){
+//			try {
+//				writeToFileTemp();
+//			} catch (IOException | XMLStreamException e) {
+//			}
+//		}
+		try {
+			writeToFile(message);
+		} catch (IOException | XMLStreamException e) {
 		}
+		root = factory.createOMElement(rootName);
+		
 		docs.clear();
 
 	}
