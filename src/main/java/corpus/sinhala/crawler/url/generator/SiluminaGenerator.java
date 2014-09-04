@@ -45,7 +45,7 @@ public class SiluminaGenerator extends Observable {
 
 	public SiluminaGenerator(int sYear, int eYear, int sMonth, int eMonth,
 			int sDate, int eDate, String host, int port) {
-		System.out.println("aaaaaaa");
+		//System.out.println("aaaaaaa");
 		// System.setProperty("http.proxyHost", "cache.mrt.ac.lk");
 		// System.setProperty("http.proxyPort", "3128");
 

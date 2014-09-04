@@ -17,12 +17,18 @@ public class VidusaraParser implements Parser {
 	public VidusaraParser(String page, String url){
 		doc = Jsoup.parse(page);
 		this.url = url;
-		titleElement = doc.select("font[color=#336600]").first();
-
+		try{
+		titleElement = doc.select("font[size=5]").get(0);
+		}catch(Exception e){}
+		if(titleElement == null)
+			try{
+			titleElement = doc.select("span[class=style2]").get(0);
+			}catch(Exception e){}
+		if(titleElement == null)
+			try{
+			titleElement = doc.select("span[class=style3]").get(0);
+			}catch(Exception e){}
 		p = titleElement.parent();
-		e = p.getElementsByTag("font");
-		bodyElement = e.get(1);
-		bodyElements = bodyElement.getElementsByTag("br");
 		arr = url.split("/");
 
 	}
