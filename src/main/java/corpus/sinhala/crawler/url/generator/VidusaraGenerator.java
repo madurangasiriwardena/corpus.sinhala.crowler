@@ -150,7 +150,7 @@ public class VidusaraGenerator extends Observable{
 				Elements urlList = doc.select("li");
 				System.out.println(urlList.size());
 				for(int i=0; i<urlList.size(); i++){
-					String tempUrl = urlList.get(i).select("p").get(0).select("a").get(0).attr("href");
+					String tempUrl = urlList.get(i).select("a").get(0).attr("href");
 					if( !urls.contains(base+tempUrl))
 					urls.add(base+tempUrl);
 					System.out.println(base+tempUrl);
