@@ -29,13 +29,22 @@ public class RawayaParser implements Parser {
 	
 	public String getContent(){
 		
-		//return 
-		Elements contents = titleElement.parent().select("strong");
 		String content="";
+		if(Integer.parseInt(this.getYear().substring(0, 4))<2014 || (Integer.parseInt(this.getYear().substring(0, 4))==2014 && this.getMonth()=="01")||(Integer.parseInt(this.getYear().substring(0, 4))==2014 && this.getMonth()=="02" && Integer.parseInt(this.getDate())<24)){
+			Elements contents = doc.select("div[class=prl-entry-content]").get(0).select("p");
+			for(int i=0;i<contents.size();i++){
+				if(!contents.get(i).attr("class").equals("no-break"))
+				content = content + contents.get(i).text();
+			}
+		}else{
+			Elements contents = titleElement.parent().select("strong");
+		
 		for(int i=0;i<contents.size();i++){
 			if(!contents.get(i).attr("class").equals("subIN"))
 			content = content + contents.get(i).text();
 		}
+		}
+		System.out.println(content);
 		return content;
 	}
 	
