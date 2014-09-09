@@ -118,9 +118,10 @@ public class DivainaGenerator extends Observable{
 				return fetchPage();
 			}else{
 				try{
+					String message = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", date);
 					nc.send(year + "/" + String.format("%02d", month) + "/" + String.format("%02d", date));
 					setChanged();
-				    notifyObservers();
+				    notifyObservers(message);
 				}catch(IOException e1){
 					return null;
 				}
@@ -137,8 +138,6 @@ public class DivainaGenerator extends Observable{
 					try{
 						nc.send("close");
 						nc.close();
-						setChanged();
-					    notifyObservers();
 					}catch(IOException e1){
 						return null;
 					}
