@@ -52,7 +52,6 @@ public class LankadeepaParser implements Parser {
 		String pageString = page;
 		doc = Jsoup.parse(pageString);
 		this.url = url;
-		System.out.println(url);
 		parsePage();
 	}
 	
@@ -95,9 +94,7 @@ public class LankadeepaParser implements Parser {
 		String[] dataArr = data.split("\\|");
 		author = dataArr[1];
 		String[] dateArr = dataArr[0].split(" ");
-		for (int i = 0; i < dateArr.length; i++) {
-			System.out.println(dateArr[i]);
-		}
+
 		year = dateArr[0];
 		month = dateArr[1];
 		date = dateArr[3];

@@ -1,15 +1,27 @@
 package corpus.sinhala.crawler;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.jsoup.Jsoup;
@@ -19,7 +31,7 @@ import org.jsoup.select.Elements;
 import corpus.sinhala.crawler.infra.Generator;
 import corpus.sinhala.crawler.infra.network.NetworkConnector;
 
-public class LankadeepaGenerator extends Generator{
+public class LankadeepaGenerator extends Generator {
 	int sYear;
 	int eYear;
 	int sMonth;
@@ -37,7 +49,8 @@ public class LankadeepaGenerator extends Generator{
 	DateTime dt;
 	DateTime endDate;
 	DateTime dayAfterEndDate;
-	
+	boolean startDate;
+
 	boolean listEmpty;
 	Queue<String> urls;
 
@@ -45,31 +58,24 @@ public class LankadeepaGenerator extends Generator{
 
 	public LankadeepaGenerator(int sYear, int eYear, int sMonth, int eMonth,
 			int sDate, int eDate, String host, int port) {
-		
+
 		this.sYear = sYear;
 		this.eYear = eYear;
 		this.sMonth = sMonth;
 		this.eMonth = eMonth;
 		this.sDate = sDate;
 		this.eDate = eDate;
+		startDate = true;
 
 		year = sYear;
 		month = sMonth;
 		date = sDate;
-		articleId = 1;
-		articleName = new String[1];
-		articleName[0] = "";
-		
-		articleNameId = 0;
-		
-		listEmpty = true;
+
+
 		urls = new LinkedList<String>();
 
 		dt = new DateTime(sYear, sMonth, sDate, 0, 0, 0, 0);
-		if (dt.getDayOfWeek() >= DateTimeConstants.WEDNESDAY) {
-	        dt = dt.plusWeeks(1);
-	    }
-	    dt = dt.withDayOfWeek(DateTimeConstants.WEDNESDAY);
+
 		year = dt.getYear();
 		month = dt.getMonthOfYear();
 		date = dt.getDayOfMonth();
@@ -86,92 +92,84 @@ public class LankadeepaGenerator extends Generator{
 		}
 	}
 
-	public String baseGenerator() {
-		String url = "http://www.lakehouse.lk/alokoudapadi/" + year + "/"
-				+ String.format("%02d", month) + "/"
-				+ String.format("%02d", date) + "/";
-
-		return url;
-	}
-	
-	public String listGenerator() {
-		String url = "http://www.lakehouse.lk/alokoudapadi/" + year + "/"
-				+ String.format("%02d", month) + "/"
-				+ String.format("%02d", date) + "/"
-				+ articleName[articleNameId]
-				+ "_art.asp?fn=a";
-
-		return url;
-	}
 
 	public Document fetchPage() throws IOException {
-		if(!dt.isBefore(dayAfterEndDate) ){
+		if (!dt.isBefore(dayAfterEndDate)) {
 			return null;
 		}
-		while(urls.isEmpty()){
-			if(articleNameId>=articleName.length){
-				
-				try{
-					String message = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", date);
-					nc.send(year + "/" + String.format("%02d", month) + "/" + String.format("%02d", date));
+		while (urls.isEmpty()) {
+			if(!startDate){
+				try {
+					String message = year + "-" + String.format("%02d", month)
+							+ "-" + String.format("%02d", date);
+					nc.send(year + "/" + String.format("%02d", month) + "/"
+							+ String.format("%02d", date));
 					setChanged();
-				    notifyObservers(message);
-				}catch(IOException e1){
+					notifyObservers(message);
+				} catch (IOException e1) {
 					return null;
 				}
-				articleNameId=0;
-				dt = dt.plusWeeks(1);
+				articleNameId = 0;
+				dt = dt.plusDays(1);
 				year = dt.getYear();
 				month = dt.getMonthOfYear();
 				date = dt.getDayOfMonth();
-				
-				if(!dt.isBefore(dayAfterEndDate) ){
-					try{
+
+				if (!dt.isBefore(dayAfterEndDate)) {
+					try {
 						nc.send("close");
 						nc.close();
-					}catch(IOException e1){
+					} catch (IOException e1) {
 						return null;
 					}
-					
+
 					return null;
 				}
-			}
-			String urlString = listGenerator();
-			URL url = new URL(urlString);
-			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
-					"cache.mrt.ac.lk", 3128));
-//    		 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
-			HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
-			try {
-				uc.connect();
+			}else{
+				startDate = false;
+			}
+
+			HttpPost post = new HttpPost(
+					"http://www.lankadeepa.lk/index.php/maincontroller/archive_container");
+			List<NameValuePair> params = new ArrayList<NameValuePair>(2);
+			String payload = year + "-" + month + "-" + date;
+			params.add(new BasicNameValuePair("date", payload));
+			post.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+
+			HttpClient httpclient = HttpClients.createDefault();
+			HttpResponse response = httpclient.execute(post);
+			HttpEntity entity = response.getEntity();
+
+			if (entity != null) {
+				InputStream instream = entity.getContent();
+
 				String line = null;
 				StringBuffer tmp = new StringBuffer();
 				BufferedReader in = new BufferedReader(new InputStreamReader(
-						uc.getInputStream()));
+						instream, "UTF-8"));
 				while ((line = in.readLine()) != null) {
 					tmp.append(line);
 				}
-				String base = baseGenerator();
 				Document doc = Jsoup.parse(String.valueOf(tmp));
-				Elements urlList = doc.select("a[class=navS]");
+				Elements urlList = doc.select("p[class=leftbar_news_heading]");
 				for(int i=0; i<urlList.size(); i++){
 					
-					String tempUrl = urlList.get(i).attr("href");
-					if(tempUrl.contains("_art.asp?fn=" + articleName[articleNameId]) && !urls.contains(base+tempUrl))
-					urls.add(base+tempUrl);
+					String tempUrl = urlList.get(i).select("a").get(0).attr("href");
+					if( !urls.contains(tempUrl))
+					urls.add(tempUrl);
 				}
-			} catch (IOException e) {
 			}
-			articleNameId++;
+
+			
 			System.out.println(urls.isEmpty());
 		}
-		
+
 		String urlString = urls.remove();
 		URL url = new URL(urlString);
 		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
 				"cache.mrt.ac.lk", 3128));
-//  	 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
+		// HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
 		HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
 		try {
@@ -187,11 +185,11 @@ public class LankadeepaGenerator extends Generator{
 			Document doc = Jsoup.parse(String.valueOf(tmp));
 			doc.setBaseUri(urlString);
 			return doc;
-			
+
 		} catch (IOException e) {
 
 		}
-return null;
+		return null;
 	}
 
 }
