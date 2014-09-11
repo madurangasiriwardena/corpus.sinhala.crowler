@@ -31,7 +31,7 @@ import org.jsoup.select.Elements;
 import corpus.sinhala.crawler.infra.Generator;
 import corpus.sinhala.crawler.infra.network.NetworkConnector;
 
-public class LankadeepaGenerator extends Generator {
+public class AdaDeranaGenerator extends Generator {
 	int sYear;
 	int eYear;
 	int sMonth;
@@ -56,7 +56,7 @@ public class LankadeepaGenerator extends Generator {
 
 	NetworkConnector nc;
 
-	public LankadeepaGenerator(int sYear, int eYear, int sMonth, int eMonth,
+	public AdaDeranaGenerator(int sYear, int eYear, int sMonth, int eMonth,
 			int sDate, int eDate, String host, int port) {
 
 		this.sYear = sYear;
@@ -130,11 +130,13 @@ public class LankadeepaGenerator extends Generator {
 				startDate = false;
 			}
 
-			HttpPost post = new HttpPost(
-					"http://www.lankadeepa.lk/index.php/maincontroller/archive_container");
-			List<NameValuePair> params = new ArrayList<NameValuePair>(2);
-			String payload = year + "-" + month + "-" + date;
-			params.add(new BasicNameValuePair("date", payload));
+			HttpPost post = new HttpPost("http://sinhala.adaderana.lk/news_archive.php?srcRslt=1");
+	    	List<NameValuePair> params = new ArrayList<NameValuePair>(2);
+	    	params.add(new BasicNameValuePair("srcCategory", "999"));
+	    	params.add(new BasicNameValuePair("srcYear", year+""));
+	    	params.add(new BasicNameValuePair("srcMonth", month+""));
+	    	params.add(new BasicNameValuePair("srcDay", date+""));
+	    	params.add(new BasicNameValuePair("Submit", "Search"));
 			post.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
 
 			HttpClient httpclient = HttpClients.createDefault();
@@ -152,10 +154,11 @@ public class LankadeepaGenerator extends Generator {
 					tmp.append(line);
 				}
 				Document doc = Jsoup.parse(String.valueOf(tmp));
-				Elements urlList = doc.select("p[class=leftbar_news_heading]");
+				Elements urlList = doc.select("div[class=story-text]");
 				for(int i=0; i<urlList.size(); i++){
 					
-					String tempUrl = urlList.get(i).select("a").get(0).attr("href");
+					String tempUrl = urlList.get(i).select("h4").get(0).select("a").get(0).attr("href");
+					tempUrl = "http://sinhala.adaderana.lk/"+tempUrl;
 					if( !urls.contains(tempUrl))
 					urls.add(tempUrl);
 				}

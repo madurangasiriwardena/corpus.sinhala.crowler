@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>corpus.sinhala.crawler</groupId>
-	<artifactId>corpus.sinhala.crawler.lankadeepa</artifactId>
+	<artifactId>corpus.sinhala.crawler.adaderana</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>corpus.sinhala.crawler.lankadeepa</name>
+	<name>corpus.sinhala.crawler.adaderana</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
