@@ -131,7 +131,7 @@ public class AdaDeranaGenerator extends Generator {
 			}
 
 			HttpPost post = new HttpPost("http://sinhala.adaderana.lk/news_archive.php?srcRslt=1");
-	    	List<NameValuePair> params = new ArrayList<NameValuePair>(2);
+	    	List<NameValuePair> params = new ArrayList<NameValuePair>(5);
 	    	params.add(new BasicNameValuePair("srcCategory", "999"));
 	    	params.add(new BasicNameValuePair("srcYear", year+""));
 	    	params.add(new BasicNameValuePair("srcMonth", month+""));

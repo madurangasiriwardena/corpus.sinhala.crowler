@@ -8,9 +8,19 @@ import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.jsoup.Jsoup;
@@ -139,10 +149,7 @@ public class MawbimaGenerator extends Generator{
 		urls = new LinkedList<String>();
 
 		dt = new DateTime(sYear, sMonth, sDate, 0, 0, 0, 0);
-		if (dt.getDayOfWeek() >= DateTimeConstants.WEDNESDAY) {
-	        dt = dt.plusWeeks(1);
-	    }
-	    dt = dt.withDayOfWeek(DateTimeConstants.WEDNESDAY);
+		
 		year = dt.getYear();
 		month = dt.getMonthOfYear();
 		date = dt.getDayOfMonth();
@@ -206,70 +213,68 @@ public class MawbimaGenerator extends Generator{
 					return null;
 				}
 			}
+			
 			String urlString = listGenerator();
-			System.out.println(urlString);
-			URL url = new URL(urlString);
-			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
-					"cache.mrt.ac.lk", 3128));
-    		 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
-//			HttpURLConnection uc = (HttpURLConnection) url.openConnection();
+			
+			HttpPost post = new HttpPost(urlString);
 
-			try {
-				uc.connect();
-				
-				String line = null;
+	    	HttpClient httpclient = HttpClients.createDefault();
+	    	HttpResponse response = httpclient.execute(post);
+	    	HttpEntity entity = response.getEntity();
+
+	    	if (entity != null) {
+	    	    InputStream instream = entity.getContent();
+	    	    
+	    	    String line = null;
 				StringBuffer tmp = new StringBuffer();
-				InputStream x = uc.getInputStream();
-				System.out.println("+++++++++");
-				BufferedReader in = new BufferedReader(new InputStreamReader(
-						x, "UTF-8"));
+				BufferedReader in = new BufferedReader(new InputStreamReader(instream, "UTF-8"));
 				while ((line = in.readLine()) != null) {
 					tmp.append(line);
 				}
+
 				String base = baseGenerator();
 				
 				Document doc = Jsoup.parse(String.valueOf(tmp));
-				System.out.println(doc);
-				System.out.println("-----------");
+
 				Elements urlList = doc.select("span[class=titletextash]");
-				System.out.println(urlList.size());
 				for(int i=0; i<urlList.size(); i++){
 					
-					String tempUrl = urlList.select("a").first().attr("href");
-					if( !urls.contains(base+tempUrl))
-					urls.add(base+tempUrl);
+					String tempUrl = urlList.get(i).select("a").first().attr("href");
+					if( !urls.contains(base+tempUrl)){
+						urls.add(base+tempUrl);
+					}
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+	    	}
+			
+			
 			articleNameId++;
-			System.out.println(urls.isEmpty());
 		}
 		
 		String urlString = urls.remove();
-		URL url = new URL(urlString);
-		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
-				"cache.mrt.ac.lk", 3128));
-  	 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
-//		HttpURLConnection uc = (HttpURLConnection) url.openConnection();
+		HttpPost post = new HttpPost(urlString);
 
-		try {
-			uc.connect();
-			String line = null;
+    	HttpClient httpclient = HttpClients.createDefault();
+    	HttpResponse response = httpclient.execute(post);
+    	HttpEntity entity = response.getEntity();
+
+    	if (entity != null) {
+    	    InputStream instream = entity.getContent();
+    	    
+    	    String line = null;
 			StringBuffer tmp = new StringBuffer();
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					uc.getInputStream(), "UTF-8"));
+			BufferedReader in = new BufferedReader(new InputStreamReader(instream, "UTF-8"));
 			while ((line = in.readLine()) != null) {
 				tmp.append(line);
 			}
-
+			
+			String base = baseGenerator();
+			
 			Document doc = Jsoup.parse(String.valueOf(tmp));
 			doc.setBaseUri(urlString);
 			return doc;
-			
-		} catch (IOException e) {
+    	}
 
-		}
+		
 return null;
 	}
 

@@ -15,7 +15,6 @@ public class MawbimaParser implements Parser {
 	String[] arr;
 	
 	public MawbimaParser(String page, String url){
-		System.out.println("COntroller");
 		doc = Jsoup.parse(page);
 		this.url = url;
 		titleElement = doc.select("span[class=subtitle newsdetailssubtitle").first();

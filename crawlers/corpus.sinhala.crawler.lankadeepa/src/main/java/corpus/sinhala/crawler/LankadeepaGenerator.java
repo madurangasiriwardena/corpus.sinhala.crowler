@@ -132,7 +132,7 @@ public class LankadeepaGenerator extends Generator {
 
 			HttpPost post = new HttpPost(
 					"http://www.lankadeepa.lk/index.php/maincontroller/archive_container");
-			List<NameValuePair> params = new ArrayList<NameValuePair>(2);
+			List<NameValuePair> params = new ArrayList<NameValuePair>(1);
 			String payload = year + "-" + month + "-" + date;
 			params.add(new BasicNameValuePair("date", payload));
 			post.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
