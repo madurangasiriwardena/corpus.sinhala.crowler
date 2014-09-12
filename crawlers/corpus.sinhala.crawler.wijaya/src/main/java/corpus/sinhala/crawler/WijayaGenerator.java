@@ -66,10 +66,7 @@ public class WijayaGenerator extends Generator{
 		urls = new LinkedList<String>();
 
 		dt = new DateTime(sYear, sMonth, sDate, 0, 0, 0, 0);
-		if (dt.getDayOfWeek() >= DateTimeConstants.WEDNESDAY) {
-	        dt = dt.plusWeeks(1);
-	    }
-	    dt = dt.withDayOfWeek(DateTimeConstants.WEDNESDAY);
+		
 		year = dt.getYear();
 		month = dt.getMonthOfYear();
 		date = dt.getDayOfMonth();
@@ -86,20 +83,11 @@ public class WijayaGenerator extends Generator{
 		}
 	}
 
-	public String baseGenerator() {
-		String url = "http://www.lakehouse.lk/alokoudapadi/" + year + "/"
-				+ String.format("%02d", month) + "/"
-				+ String.format("%02d", date) + "/";
-
-		return url;
-	}
 	
 	public String listGenerator() {
-		String url = "http://www.lakehouse.lk/alokoudapadi/" + year + "/"
+		String url = "http://www.wijeya.lk/archives/date/" + year + "/"
 				+ String.format("%02d", month) + "/"
-				+ String.format("%02d", date) + "/"
-				+ articleName[articleNameId]
-				+ "_art.asp?fn=a";
+				+ String.format("%02d", date);
 
 		return url;
 	}
@@ -120,7 +108,7 @@ public class WijayaGenerator extends Generator{
 					return null;
 				}
 				articleNameId=0;
-				dt = dt.plusWeeks(1);
+				dt = dt.plusDays(1);
 				year = dt.getYear();
 				month = dt.getMonthOfYear();
 				date = dt.getDayOfMonth();
@@ -148,18 +136,17 @@ public class WijayaGenerator extends Generator{
 				String line = null;
 				StringBuffer tmp = new StringBuffer();
 				BufferedReader in = new BufferedReader(new InputStreamReader(
-						uc.getInputStream()));
+						uc.getInputStream(), "UTF-8"));
 				while ((line = in.readLine()) != null) {
 					tmp.append(line);
 				}
-				String base = baseGenerator();
 				Document doc = Jsoup.parse(String.valueOf(tmp));
-				Elements urlList = doc.select("a[class=navS]");
+				Elements urlList = doc.select("a[rel=bookmark]");
 				for(int i=0; i<urlList.size(); i++){
 					
 					String tempUrl = urlList.get(i).attr("href");
-					if(tempUrl.contains("_art.asp?fn=" + articleName[articleNameId]) && !urls.contains(base+tempUrl))
-					urls.add(base+tempUrl);
+					if(!urls.contains(tempUrl))
+						urls.add(tempUrl);
 				}
 			} catch (IOException e) {
 			}
