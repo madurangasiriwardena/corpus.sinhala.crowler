@@ -82,5 +82,9 @@ public class WijayaParser implements Parser {
 		
 		return doc.select("div[class=dateline").first().text().split(" ")[3].split(",")[0];
 	}
+	
+	public String getCategory() {
+		return "NEWSPAPER";
+	}
 
 }

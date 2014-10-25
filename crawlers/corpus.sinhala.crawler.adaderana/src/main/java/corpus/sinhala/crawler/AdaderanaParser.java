@@ -67,5 +67,9 @@ public class AdaderanaParser implements Parser{
 	public String getDate(){
 		return doc.select("p[class=newsDateStamp]").first().text().split(" ")[1].substring(0,2);
 	}
+	
+	public String getCategory() {
+		return "NEWSPAPER";
+	}
 
 }

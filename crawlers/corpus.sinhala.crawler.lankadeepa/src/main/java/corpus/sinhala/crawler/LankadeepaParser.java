@@ -128,5 +128,9 @@ public class LankadeepaParser implements Parser {
 		content.trim();
 		
 	}
+	
+	public String getCategory() {
+		return "NEWSPAPER";
+	}
 
 }

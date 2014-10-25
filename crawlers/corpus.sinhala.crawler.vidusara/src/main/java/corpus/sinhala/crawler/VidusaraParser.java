@@ -79,5 +79,9 @@ public class VidusaraParser implements Parser {
 		}
 		return "";
 	}
+	
+	public String getCategory() {
+		return "NEWSPAPER";
+	}
 
 }

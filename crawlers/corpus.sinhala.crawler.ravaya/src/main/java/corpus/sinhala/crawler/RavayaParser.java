@@ -96,4 +96,8 @@ public class RavayaParser implements Parser {
 		return doc.select("div[class=prl-article-meta]").first().text().split(" ")[0].split(",")[1];
 	}
 	
+	public String getCategory() {
+		return "NEWSPAPER";
+	}
+	
 }

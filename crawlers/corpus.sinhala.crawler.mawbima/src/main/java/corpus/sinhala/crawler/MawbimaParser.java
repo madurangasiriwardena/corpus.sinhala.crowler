@@ -51,4 +51,8 @@ public class MawbimaParser implements Parser {
 	public String getDate(){
 		return url.split("-")[2];
 	}
+	
+	public String getCategory() {
+		return "NEWSPAPER";
+	}
 }

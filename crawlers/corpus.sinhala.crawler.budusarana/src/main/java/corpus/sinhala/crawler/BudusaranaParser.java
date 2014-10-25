@@ -57,5 +57,9 @@ public class BudusaranaParser implements Parser{
 	public String getDate(){
 		return arr[6];
 	}
+	
+	public String getCategory() {
+		return "NEWSPAPER";
+	}
 
 }

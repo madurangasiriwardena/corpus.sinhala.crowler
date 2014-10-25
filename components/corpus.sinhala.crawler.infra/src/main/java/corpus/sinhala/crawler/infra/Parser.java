@@ -9,4 +9,5 @@ public interface Parser {
 	public String getYear();
 	public String getMonth();
 	public String getDate();
+	public String getCategory();
 }

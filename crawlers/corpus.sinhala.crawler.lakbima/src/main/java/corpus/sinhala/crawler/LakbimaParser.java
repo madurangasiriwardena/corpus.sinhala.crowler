@@ -108,4 +108,8 @@ public class LakbimaParser implements Parser{
 		return dateElement.text().split(" ")[2];
 	}
 	
+	public String getCategory() {
+		return "NEWSPAPER";
+	}
+	
 }

@@ -44,6 +44,7 @@ public class XMLFileWriter implements Observer {
 	private QName yearName;
 	private QName monthName;
 	private QName dayName;
+	private QName categoryName;
 
 	ArrayList<OMElement> docs;
 	
@@ -105,6 +106,7 @@ public class XMLFileWriter implements Observer {
 		yearName = new QName("year");
 		monthName = new QName("month");
 		dayName = new QName("day");
+		categoryName = new QName("category");
 
 		docs = new ArrayList<>();
 		
@@ -123,6 +125,10 @@ public class XMLFileWriter implements Observer {
 		Parser parser = (Parser) cons.newInstance(page, url);
 
 		OMElement doc = factory.createOMElement(postName);
+		
+		OMElement category = factory.createOMElement(categoryName);
+		category.setText(parser.getCategory());
+		doc.addChild(category);
 
 		OMElement date = factory.createOMElement(dateName);
 		OMElement year = factory.createOMElement(yearName);

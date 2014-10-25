@@ -75,5 +75,9 @@ public class SarasawiyaParser implements Parser {
 		else
 			return "";
 	}
+	
+	public String getCategory() {
+		return "NEWSPAPER";
+	}
 
 }

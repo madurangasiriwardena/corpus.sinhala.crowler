@@ -72,5 +72,9 @@ public class DinaminaParser implements Parser{
 		else
 			return "";
 	}
+	
+	public String getCategory() {
+		return "NEWSPAPER";
+	}
 
 }

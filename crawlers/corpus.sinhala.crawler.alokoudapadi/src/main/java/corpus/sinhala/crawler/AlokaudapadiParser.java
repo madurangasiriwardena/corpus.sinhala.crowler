@@ -66,5 +66,9 @@ public class AlokaudapadiParser implements Parser {
 	public String getDate(){
 		return arr[6];
 	}
+	
+	public String getCategory() {
+		return "NEWSPAPER";
+	}
 
 }

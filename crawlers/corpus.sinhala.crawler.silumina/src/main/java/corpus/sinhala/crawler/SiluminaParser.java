@@ -61,5 +61,9 @@ public class SiluminaParser implements Parser{
 	public String getDate(){
 		return arr[5];
 	}
+	
+	public String getCategory() {
+		return "NEWSPAPER";
+	}
 
 }

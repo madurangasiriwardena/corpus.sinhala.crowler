@@ -76,5 +76,9 @@ public class NamaskaraParser implements Parser {
 	public String getDate(){
 		return "";
 	}
+	
+	public String getCategory() {
+		return "NEWSPAPER";
+	}
 
 }
