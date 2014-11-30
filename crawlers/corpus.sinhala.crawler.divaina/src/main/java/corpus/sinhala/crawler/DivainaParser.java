@@ -92,7 +92,7 @@ public class DivainaParser implements Parser {
 	}
 
 	public String getCategory() {
-		return "NEWSPAPER";
+		return "NEWS";
 	}
 	
 }

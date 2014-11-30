@@ -78,7 +78,7 @@ public class NamaskaraParser implements Parser {
 	}
 	
 	public String getCategory() {
-		return "NEWSPAPER";
+		return "ACADEMIC";
 	}
 
 }

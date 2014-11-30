@@ -157,17 +157,22 @@ public class BuduSaranaGenerator extends Generator {
 				}
 				String base = baseGenerator();
 				Document doc = Jsoup.parse(String.valueOf(tmp));
-				urls.add(base + doc.select("a[class=fullstory]").get(0).attr("href"));
+				urls.add(base + doc.select("p[class=fullstory]").get(0).select("a").get(0).attr("href"));
 				Elements urlList = doc.select("li");
 				System.out.println(urlList.size());
 				for(int i=0; i<urlList.size(); i++){
-					String tempUrl = urlList.get(i).select("h2").get(0).select("a").get(0).attr("href");
-					if(!urls.contains(base+tempUrl)){
-					urls.add(base+tempUrl);
-					System.out.println(base+tempUrl );
+					try{
+						String tempUrl = urlList.get(i).select("h2").get(0).select("a").get(0).attr("href");
+						if(!urls.contains(base+tempUrl)){
+						urls.add(base+tempUrl);
+						System.out.println(base+tempUrl );
+						}
+					}catch(Exception e){
+						
 					}
 				}
-			} catch (IOException e) {
+			} catch (Exception e) {
+				System.out.println(e);
 			}
 			articleNameId++;
 			//System.out.println(urls.isEmpty());

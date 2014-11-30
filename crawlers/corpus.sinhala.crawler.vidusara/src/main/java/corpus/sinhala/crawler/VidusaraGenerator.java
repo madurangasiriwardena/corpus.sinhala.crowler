@@ -157,12 +157,17 @@ public class VidusaraGenerator extends Generator{
 				Elements urlList = doc.select("li");
 				System.out.println(urlList.size());
 				for(int i=0; i<urlList.size(); i++){
-					String tempUrl = urlList.get(i).select("a").get(0).attr("href");
-					if( !urls.contains(base+tempUrl))
-					urls.add(base+tempUrl);
+					try{
+						String tempUrl = urlList.get(i).select("a").get(0).attr("href");
+						if( !urls.contains(base+tempUrl))
+						urls.add(base+tempUrl);
+					}catch(Exception e){
+						System.out.println(e);
+					}
 					
 				}
 			} catch (IOException e) {
+				System.out.println(e);
 			}
 			articleNameId++;
 			System.out.println(urls.isEmpty());

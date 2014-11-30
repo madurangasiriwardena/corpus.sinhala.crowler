@@ -84,7 +84,7 @@ public class WijayaParser implements Parser {
 	}
 	
 	public String getCategory() {
-		return "NEWSPAPER";
+		return "ACADEMIC";
 	}
 
 }

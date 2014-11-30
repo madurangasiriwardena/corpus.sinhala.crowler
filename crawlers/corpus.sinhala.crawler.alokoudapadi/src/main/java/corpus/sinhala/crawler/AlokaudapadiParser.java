@@ -68,7 +68,7 @@ public class AlokaudapadiParser implements Parser {
 	}
 	
 	public String getCategory() {
-		return "NEWSPAPER";
+		return "ACADEMIC";
 	}
 
 }

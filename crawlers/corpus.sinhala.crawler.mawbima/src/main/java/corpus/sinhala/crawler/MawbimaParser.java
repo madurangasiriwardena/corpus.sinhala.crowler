@@ -53,6 +53,6 @@ public class MawbimaParser implements Parser {
 	}
 	
 	public String getCategory() {
-		return "NEWSPAPER";
+		return "NEWS";
 	}
 }

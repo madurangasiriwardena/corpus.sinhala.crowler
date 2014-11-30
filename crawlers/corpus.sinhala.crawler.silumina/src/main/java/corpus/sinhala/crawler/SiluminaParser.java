@@ -63,7 +63,7 @@ public class SiluminaParser implements Parser{
 	}
 	
 	public String getCategory() {
-		return "NEWSPAPER";
+		return "NEWS";
 	}
 
 }

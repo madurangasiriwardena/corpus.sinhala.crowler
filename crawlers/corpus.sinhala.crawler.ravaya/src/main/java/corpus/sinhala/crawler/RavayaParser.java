@@ -97,7 +97,7 @@ public class RavayaParser implements Parser {
 	}
 	
 	public String getCategory() {
-		return "NEWSPAPER";
+		return "NEWS";
 	}
 	
 }

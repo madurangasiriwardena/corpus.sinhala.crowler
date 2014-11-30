@@ -74,7 +74,7 @@ public class DinaminaParser implements Parser{
 	}
 	
 	public String getCategory() {
-		return "NEWSPAPER";
+		return "NEWS";
 	}
 
 }
