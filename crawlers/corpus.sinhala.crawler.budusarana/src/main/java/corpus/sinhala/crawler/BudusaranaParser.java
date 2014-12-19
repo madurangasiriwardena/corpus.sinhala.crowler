@@ -59,7 +59,7 @@ public class BudusaranaParser implements Parser{
 	}
 	
 	public String getCategory() {
-		return "NEWSPAPER";
+		return "ACADEMIC";
 	}
 
 }
