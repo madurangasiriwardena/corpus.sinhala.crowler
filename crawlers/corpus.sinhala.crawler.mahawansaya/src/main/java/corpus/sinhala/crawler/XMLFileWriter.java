@@ -7,8 +7,6 @@ import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
@@ -21,15 +19,12 @@ import org.apache.axiom.om.util.StAXUtils;
 
 import javanet.staxutils.IndentingXMLStreamWriter;
 
-public class XMLFileWriter implements Observer {
+public class XMLFileWriter {
 	private int documentCounter;
 	private String filePrefix;
 	private int fileCounter;
 	private String baseFolder;
 	private String filePath;
-	// private BufferedWriter bw;
-	// private FileWriter fw;
-	private int maxDocumentCounter;
 	private String path;
 
 	private OMFactory factory;
@@ -59,37 +54,7 @@ public class XMLFileWriter implements Observer {
 
 	}
 
-	public XMLFileWriter(String location, String parserClass) throws IOException, ClassNotFoundException, NoSuchMethodException, SecurityException {
 		
-		ClassLoader myClassLoader = ClassLoader.getSystemClassLoader();
-
-		
-		Class<?> myClass = myClassLoader.loadClass(parserClass);
-		cons = myClass
-				.getConstructor(new Class[] { String.class, String.class });
-		
-		
-		String temp[] = location.split("/");
-		String createDir = "";
-		if(!location.startsWith("/")){
-			createDir += temp[0];
-			File dir = new File(createDir);
-			dir.mkdir();
-		}
-		
-		for(int i=1; i<temp.length; i++){
-			createDir += "/"+temp[i];
-			File dir = new File(createDir);
-			dir.mkdir();
-		}
-		filePath = createDir;
-		
-		
-		init();
-		factory = OMAbstractFactory.getOMFactory();
-		root = factory.createOMElement(rootName);
-		
-	}
 
 	public XMLFileWriter() throws IOException {
 		init();
@@ -102,7 +67,6 @@ public class XMLFileWriter implements Observer {
 		documentCounter = 0;
 		filePrefix = "L";
 		fileCounter = 0;
-		maxDocumentCounter = 100;
 		rootName = new QName("root");
 		linkName = new QName("link");
 		topicName = new QName("topic");
@@ -117,20 +81,13 @@ public class XMLFileWriter implements Observer {
 
 		docs = new ArrayList<>();
 		
-		//fileCounter = new File(filePath).list().length;
-		System.out.println(fileCounter);
-		System.out.println(filePath);
-		
 	}
 
-	public int getDocumentCounter() {
-		 return documentCounter;
-	}
+	
 
 	public void addDocument(String page, String url) throws IOException,
 			XMLStreamException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		MahawansayaParser parser = new MahawansayaParser(page, url);
-		//System.out.println("abc"+page);
 		OMElement doc = factory.createOMElement(postName);
 		
 		OMElement category = factory.createOMElement(categoryName);
@@ -172,23 +129,10 @@ public class XMLFileWriter implements Observer {
 		OMElement content = factory.createOMElement(contentName);
 		content.setText(parser.getContent());
 		doc.addChild(content);
-		// root.addChild(doc);
-
-		docs.add(doc);
-		//System.out.println(docs);
-	}
-
-	public void writeToFile() throws IOException, XMLStreamException {
 		
-		path = filePath + "/" + filePrefix + String.format("%04d", fileCounter)
-				+ ".xml";
-		OutputStream out = new FileOutputStream(path);
-		XMLStreamWriter writer = StAXUtils.createXMLStreamWriter(out);
-		writer = new IndentingXMLStreamWriter(writer);
-		root.serialize(writer);
-		writer.flush();
-		fileCounter++;
+		docs.add(doc);
 	}
+
 	
 	public void writeToFile(String fileName) throws IOException, XMLStreamException {
 		path = fileName + ".xml";
@@ -218,9 +162,9 @@ public class XMLFileWriter implements Observer {
 
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-		String message = (String)arg;
+	//@Override
+	public void update(String message) {
+		//String message = (String)arg;
 		
 		for (int i = 0; i < docs.size(); i++) {
 

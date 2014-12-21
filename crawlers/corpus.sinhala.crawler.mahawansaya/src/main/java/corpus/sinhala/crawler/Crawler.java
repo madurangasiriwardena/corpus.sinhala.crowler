@@ -10,11 +10,21 @@ import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+
+//import corpus.sinhala.crawler.controller.db.DataSourceException;
+
+//import corpus.sinhala.crawler.controller.SysProperty;
 
 public class Crawler {
 
@@ -71,22 +81,20 @@ public class Crawler {
 				tmp.append(line);
 			}
 			}catch(FileNotFoundException e){
-				System.out.println(index);
-				index++;
-				//break;
+				this.writeDB(index-1);
+				writer.update("/home/chamila/semester7/fyp/mahawansa");
+				break;
 			}
 
 			Document doc = Jsoup.parse(String.valueOf(tmp));
 			doc.setBaseUri(urlString);
-			//System.out.println();
-			if(this.isValid(doc) && index!=5){
+			if(this.isValid(doc)){
 				writer.addDocument(doc+"", urlString);
 				index++;
 			}
 			else{
-				System.out.println(index);
-				index++;
-				writer.writeToFile("/home/chamila/semester7/fyp/mahawansa");
+				this.writeDB(index-1);
+				writer.update("/home/chamila/semester7/fyp/mahawansa");
 				break;
 			}
 			
@@ -94,12 +102,87 @@ public class Crawler {
 		}
 	}
 	
+	Connection conn = null;
+	Statement stmt = null;
+	ResultSet rs = null;
+	String driverName;
+	String url;
+	String uname;
+	String pwd;
+	
 	public int get_start(){
-		//get start index from DB
+		driverName = "com.mysql.jdbc.Driver";
+		url = "jdbc:mysql://"+"localhost"+":3306/crawler_data";
+		uname = "root";
+		pwd = "";
+		connect();
+		
+		String query = "SELECT * FROM mahawansa_size WHERE ID = 1";
+		ResultSet rs;
+
+		PreparedStatement stmt3;
+		try {
+			stmt3 = conn.prepareStatement(query);
+			rs = stmt3.executeQuery();
+			if (rs.next()) {
+				int index = rs.getInt("size");
+				System.out.println("index = " + index);
+				return index+1;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
 		return 1;
 	}
 	
+	private void connect() {
+		
+			if (conn == null)
+				conn = getConnection(driverName, url, "root", "");
+		
+
+	}
+	
+	public Connection getConnection(String driver, String url, String uname,
+			String pwd) {
+		Connection conn = null;
+
+		try {
+			Class.forName(driver).newInstance();
+			conn = DriverManager.getConnection(url, uname, pwd);
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+
+		return conn;
+	}
+	
 	public void writeDB(int index){
+		String query = "UPDATE mahawansa_size SET size=? WHERE id=?";
+
+		PreparedStatement stmt3;
+		try {
+			stmt3 = conn.prepareStatement(query);
+			stmt3.setInt(1, index);
+			stmt3.setInt(2, 1);
+			stmt3.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
