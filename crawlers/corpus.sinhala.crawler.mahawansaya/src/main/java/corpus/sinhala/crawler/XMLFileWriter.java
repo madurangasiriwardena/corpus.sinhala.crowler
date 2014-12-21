@@ -175,7 +175,7 @@ public class XMLFileWriter implements Observer {
 		// root.addChild(doc);
 
 		docs.add(doc);
-		System.out.println(docs);
+		//System.out.println(docs);
 	}
 
 	public void writeToFile() throws IOException, XMLStreamException {
@@ -191,7 +191,7 @@ public class XMLFileWriter implements Observer {
 	}
 	
 	public void writeToFile(String fileName) throws IOException, XMLStreamException {
-		path = filePath + "/" + fileName + ".xml";
+		path = fileName + ".xml";
 		OutputStream out = new FileOutputStream(path);
 		XMLStreamWriter writer = StAXUtils.createXMLStreamWriter(out);
 		writer = new IndentingXMLStreamWriter(writer);

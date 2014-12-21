@@ -22,7 +22,7 @@ public class Crawler {
 		
 		Crawler crawler = new Crawler();
 		try {
-			crawler.crawl(1);
+			crawler.crawl(crawler.get_start());
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -79,14 +79,15 @@ public class Crawler {
 			Document doc = Jsoup.parse(String.valueOf(tmp));
 			doc.setBaseUri(urlString);
 			//System.out.println();
-			if(this.isValid(doc)){
+			if(this.isValid(doc) && index!=5){
 				writer.addDocument(doc+"", urlString);
 				index++;
 			}
 			else{
 				System.out.println(index);
 				index++;
-				//break;
+				writer.writeToFile("/home/chamila/semester7/fyp/mahawansa");
+				break;
 			}
 			
 			
