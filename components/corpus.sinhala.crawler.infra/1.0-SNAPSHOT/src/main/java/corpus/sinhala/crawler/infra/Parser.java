@@ -2,12 +2,12 @@ package corpus.sinhala.crawler.infra;
 
 public interface Parser {
 	
-	public String getContent();
-	public String getTitle();
-	public String getAuthor();
-	public String getUrl();
-	public String getYear();
-	public String getMonth();
-	public String getDate();
-	public String getCategory();
+	public String getContent() throws Exception;
+	public String getTitle() throws Exception;
+	public String getAuthor() throws Exception;
+	public String getUrl() throws Exception;
+	public String getYear() throws Exception;
+	public String getMonth() throws Exception;
+	public String getDate() throws Exception;
+	public String getCategory() throws Exception;
 }

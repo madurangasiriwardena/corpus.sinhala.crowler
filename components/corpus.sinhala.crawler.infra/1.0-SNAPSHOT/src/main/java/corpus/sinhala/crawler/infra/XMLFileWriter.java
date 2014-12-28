@@ -120,8 +120,7 @@ public class XMLFileWriter implements Observer {
 		 return documentCounter;
 	}
 
-	public void addDocument(String page, String url) throws IOException,
-			XMLStreamException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void addDocument(String page, String url) throws Exception{
 		Parser parser = (Parser) cons.newInstance(page, url);
 
 		OMElement doc = factory.createOMElement(postName);
