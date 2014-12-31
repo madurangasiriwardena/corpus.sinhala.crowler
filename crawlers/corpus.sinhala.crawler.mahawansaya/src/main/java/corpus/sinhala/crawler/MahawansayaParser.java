@@ -1,7 +1,5 @@
 package corpus.sinhala.crawler;
 
-import java.util.Iterator;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -34,9 +32,7 @@ public class MahawansayaParser {
 		return url;
 	}
 
-	public String getTitle() {
-		org.jsoup.select.Elements elements =  doc.select("div[class=news_item]");
-		
+	public String getTitle() {		
 		return "මහාවංශය "  + url.split("/")[4].split("-")[1];
 	}
 
