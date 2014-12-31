@@ -94,7 +94,7 @@ public class Crawler {
 			}
 			}catch(FileNotFoundException e){
 				this.writeDB(index-1);
-				writer.update("mahawansa");
+				writer.update("mahawansa" + (index-1));
 				break;
 			}
 
@@ -106,7 +106,7 @@ public class Crawler {
 			}
 			else{
 				this.writeDB(index-1);
-				writer.update("mahawansa");
+				writer.update("mahawansa" + (index-1));
 				break;
 			}
 			
