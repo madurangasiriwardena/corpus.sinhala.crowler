@@ -20,10 +20,6 @@ import org.apache.axiom.om.util.StAXUtils;
 import javanet.staxutils.IndentingXMLStreamWriter;
 
 public class XMLFileWriter {
-	private int documentCounter;
-	private String filePrefix;
-	private int fileCounter;
-	private String baseFolder;
 	private String filePath;
 	private String path;
 
@@ -43,20 +39,24 @@ public class XMLFileWriter {
 
 	ArrayList<OMElement> docs;
 	
-	Constructor<?> cons;
-	
-	public XMLFileWriter(String parserClass) throws IOException {
-		init();
-		createFolder();
-		factory = OMAbstractFactory.getOMFactory();
-		root = factory.createOMElement(rootName);
+	Constructor<?> cons;	
 
-
-	}
-
+	public XMLFileWriter(String location) throws IOException {
+		String temp[] = location.split("/");
+		String createDir = "";
+		if(!location.startsWith("/")){
+			createDir += temp[0];
+			File dir = new File(createDir);
+			dir.mkdir();
+		}
 		
-
-	public XMLFileWriter() throws IOException {
+		for(int i=1; i<temp.length; i++){
+			createDir += "/"+temp[i];
+			File dir = new File(createDir);
+			dir.mkdir();
+		}
+		filePath = createDir;
+		
 		init();
 		//createFolder();
 		factory = OMAbstractFactory.getOMFactory();
@@ -64,9 +64,6 @@ public class XMLFileWriter {
 	}
 
 	private void init() {
-		documentCounter = 0;
-		filePrefix = "L";
-		fileCounter = 0;
 		rootName = new QName("root");
 		linkName = new QName("link");
 		topicName = new QName("topic");
@@ -137,18 +134,8 @@ public class XMLFileWriter {
 
 	
 	public void writeToFile(String fileName) throws IOException, XMLStreamException {
-		path = fileName + ".xml";
-		OutputStream out = new FileOutputStream(path);
-		XMLStreamWriter writer = StAXUtils.createXMLStreamWriter(out);
-		writer = new IndentingXMLStreamWriter(writer);
-		root.serialize(writer);
-		writer.flush();
-		fileCounter++;
-	}
-	
-	public void writeToFileTemp() throws IOException, XMLStreamException {
-		path = filePath + "/" + filePrefix + String.format("%04d", fileCounter)
-				+ ".xml";
+		path = filePath + "/" + fileName + ".xml";
+		System.out.println("---------------------------" + path);
 		OutputStream out = new FileOutputStream(path);
 		XMLStreamWriter writer = StAXUtils.createXMLStreamWriter(out);
 		writer = new IndentingXMLStreamWriter(writer);
@@ -156,42 +143,13 @@ public class XMLFileWriter {
 		writer.flush();
 	}
 
-	private void createFolder() throws IOException {
-		File dirBase = new File(baseFolder);
-		dirBase.mkdir();
-		File dirXml = new File(filePath);
-		dirXml.mkdir();
-
-	}
-
-	//@Override
 	public void update(String message) {
-		//String message = (String)arg;
 		
 		for (int i = 0; i < docs.size(); i++) {
 
 			root.addChild(docs.get(i));
-
-			documentCounter++;
-			System.out
-					.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-							+ documentCounter);
-//			if (documentCounter % maxDocumentCounter == 0) {
-//				try {
-//					writeToFile();
-//				} catch (IOException | XMLStreamException e) {
-//				}
-//				documentCounter = 0;
-//				root = factory.createOMElement(rootName);
-//			}
 		}
-		
-//		if(documentCounter>0){
-//			try {
-//				writeToFileTemp();
-//			} catch (IOException | XMLStreamException e) {
-//			}
-//		}
+
 		try {
 			writeToFile(message);
 		} catch (IOException | XMLStreamException e) {
