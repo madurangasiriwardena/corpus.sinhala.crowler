@@ -7,19 +7,14 @@ import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
-import java.util.LinkedList;
 import java.util.Queue;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import corpus.sinhala.crawler.infra.Generator;
-import corpus.sinhala.crawler.infra.network.NetworkConnector;
-
-public class MahawansayaGenerator extends Generator{
+public class MahawansayaGenerator{
 	int sYear;
 	int eYear;
 	int sMonth;
@@ -40,8 +35,6 @@ public class MahawansayaGenerator extends Generator{
 	
 	boolean listEmpty;
 	Queue<String> urls;
-
-	NetworkConnector nc;
 
 	int startChapter;
 	
@@ -114,15 +107,6 @@ public class MahawansayaGenerator extends Generator{
 		}
 		while(urls.isEmpty()){
 			if(articleNameId>=articleName.length){
-				
-				try{
-					String message = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", date);
-					nc.send(year + "/" + String.format("%02d", month) + "/" + String.format("%02d", date));
-					setChanged();
-				    notifyObservers(message);
-				}catch(IOException e1){
-					return null;
-				}
 				articleNameId=0;
 				dt = dt.plusWeeks(1);
 				year = dt.getYear();
@@ -130,13 +114,6 @@ public class MahawansayaGenerator extends Generator{
 				date = dt.getDayOfMonth();
 				
 				if(!dt.isBefore(dayAfterEndDate) ){
-					try{
-						nc.send("close");
-						nc.close();
-					}catch(IOException e1){
-						return null;
-					}
-					
 					return null;
 				}
 			}
@@ -195,7 +172,7 @@ public class MahawansayaGenerator extends Generator{
 		} catch (IOException e) {
 
 		}
-return null;
+		return null;
 	}
 
 }

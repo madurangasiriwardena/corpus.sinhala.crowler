@@ -103,7 +103,7 @@ public class VidusaraGenerator extends Generator{
 		return url;
 	}
 
-	public Document fetchPage() throws IOException {
+	public Document fetchPage() throws Exception {
 		if(!dt.isBefore(dayAfterEndDate) ){
 			return null;
 		}
@@ -159,8 +159,11 @@ public class VidusaraGenerator extends Generator{
 				for(int i=0; i<urlList.size(); i++){
 					try{
 						String tempUrl = urlList.get(i).select("a").get(0).attr("href");
-						if( !urls.contains(base+tempUrl))
-						urls.add(base+tempUrl);
+						if(!tempUrl.contains("vidusara")){
+							tempUrl = base+tempUrl;
+						}
+						if( !urls.contains(tempUrl))
+						urls.add(tempUrl);
 					}catch(Exception e){
 						System.out.println(e);
 					}
@@ -173,31 +176,38 @@ public class VidusaraGenerator extends Generator{
 			System.out.println(urls.isEmpty());
 		}
 		
-		String urlString = urls.remove();
-		URL url = new URL(urlString);
-		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
-				"cache.mrt.ac.lk", 3128));
-//  	    HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
-		HttpURLConnection uc = (HttpURLConnection) url.openConnection();
+		if(!urls.isEmpty()){
+			String urlString = urls.remove();
+			URL url = new URL(urlString);
+			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
+					"cache.mrt.ac.lk", 3128));
+//	  	    HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
+			HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
-		try {
-			uc.connect();
-			String line = null;
-			StringBuffer tmp = new StringBuffer();
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					uc.getInputStream(), "UTF-8"));
-			while ((line = in.readLine()) != null) {
-				tmp.append(line);
+			try {
+				
+				uc.connect();
+				System.out.println("connected to site");
+				String line = null;
+				StringBuffer tmp = new StringBuffer();
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						uc.getInputStream(), "UTF-8"));
+				while ((line = in.readLine()) != null) {
+					tmp.append(line);
+				}
+				System.out.println("page downloaded");
+				
+				Document doc = Jsoup.parse(String.valueOf(tmp));
+				System.out.println("Jsoup parsed");
+				doc.setBaseUri(urlString);
+				return doc;
+				
+			} catch (Exception e) {
+				throw e;
 			}
-			
-			Document doc = Jsoup.parse(String.valueOf(tmp));
-			doc.setBaseUri(urlString);
-			return doc;
-			
-		} catch (IOException e) {
-
 		}
-return null;
+		
+		return null;
 	}
 
 }

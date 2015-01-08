@@ -56,7 +56,7 @@ public class Controller {
 				try{
 					xfw.addDocument(doc.html(), doc.baseUri());
 				}catch(Exception e){
-					
+					System.out.println(e.getMessage());
 				}
 				
 			}
@@ -79,6 +79,9 @@ public class Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -16,7 +16,7 @@ public class VidusaraParser implements Parser {
 	Element bodyElement;
 	Elements bodyElements;
 	String[] arr;
-	public VidusaraParser(String page, String url){
+	public VidusaraParser(String page, String url) throws Exception{
 		doc = Jsoup.parse(page);
 		this.url = url;
 		try{
@@ -35,7 +35,7 @@ public class VidusaraParser implements Parser {
 
 	}
 
-	public String getTitle(){
+	public String getTitle() throws Exception{
 		String title = "";
 		String[] arr = url.split("/");
 
@@ -46,34 +46,34 @@ public class VidusaraParser implements Parser {
 		return "";
 	}
 
-	public String getAuthor(){
+	public String getAuthor() throws Exception{
 		return "";
 	}
 
-	public String getContent(){
+	public String getContent() throws Exception{
 		String body = "";
 		return p.text();
 	}
 
-	public String getUrl(){
+	public String getUrl() throws Exception{
 		return url;
 	}
 
-	public String getYear(){
+	public String getYear() throws Exception{
 		if(arr[2].equals("www.vidusara.com") && (arr[arr.length-1].startsWith("news") || arr[arr.length-1].startsWith("feature"))){
 			return arr[3];
 		}
 		return "";
 	}
 
-	public String getMonth(){
+	public String getMonth() throws Exception{
 		if(arr[2].equals("www.vidusara.com") && (arr[arr.length-1].startsWith("news") || arr[arr.length-1].startsWith("feature"))){
 			return arr[4];
 		}
 		return "";
 	}
 
-	public String getDate(){
+	public String getDate() throws Exception{
 		if(arr[2].equals("www.vidusara.com") && (arr[arr.length-1].startsWith("news") || arr[arr.length-1].startsWith("feature"))){
 			return arr[5];
 		}

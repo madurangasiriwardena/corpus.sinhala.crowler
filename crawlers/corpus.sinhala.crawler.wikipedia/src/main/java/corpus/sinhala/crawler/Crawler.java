@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
-import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
 import java.sql.Connection;
@@ -36,12 +35,14 @@ public class Crawler {
 	String url;
 	String uname;
 	String pwd;
+	String saveLocation;
 	
-	public Crawler() {
+	public Crawler(String saveLocation) {
+		this.saveLocation = saveLocation;
 		driverName = "com.mysql.jdbc.Driver";
-		url = "jdbc:mysql://"+"localhost"+":3306/crawler_data";
-		uname = "root";
-		pwd = "";
+		url = "jdbc:mysql://"+SysProperty.getProperty("dbHost")+":3306/crawler_data";
+		uname = SysProperty.getProperty("dbUser");
+		pwd = SysProperty.getProperty("dbPassword");
 		if (conn == null)
 			conn = getConnection(driverName, url, "root", "");
 	}
@@ -71,23 +72,28 @@ public class Crawler {
 	}
 
 	public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, XMLStreamException{
-		Crawler crawler = new Crawler();
+		String temp;
+		if(args.length == 1){
+			temp = args[0];
+		}else{
+			return;
+		}
+		
+		Crawler crawler = new Crawler(temp);
 		crawler.crawl();
 	}
 	
 	public void crawl() throws IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, XMLStreamException{
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
-		//System.out.println(dateFormat.format(date));
 		int counter=1;
 		String startingUrl = "http://si.wikipedia.org/wiki/විශේෂ:සියළු_පිටු";
 		String nextUrl=startingUrl;
-		XMLFileWriter writer = new XMLFileWriter();
+		XMLFileWriter writer = new XMLFileWriter(saveLocation);
 		while(nextUrl!=null){
-			//System.out.println(nextUrl);
 			URL url = new URL(nextUrl);
-			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
-					"cache.mrt.ac.lk", 3128));
+//			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
+//					"cache.mrt.ac.lk", 3128));
 			//HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
 			HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
@@ -133,9 +139,10 @@ public class Crawler {
 				writeDB(pageLink);
 				writer.addDocument(docPage+"", pageLink);
 				if(counter%100==0){
-					writer.update("/home/chamila/semester7/fyp/wikipedia/" + dateFormat.format(date) + "_" + (counter/100 +1));
+					writer.update(dateFormat.format(date) + "_" + (counter/100 +1));
 				}
 				counter ++;
+				System.out.println("--------------------------------"+ counter);
 			}
 			
 			Elements navElements=doc.select("div[class=mw-allpages-nav]").first().select("a");

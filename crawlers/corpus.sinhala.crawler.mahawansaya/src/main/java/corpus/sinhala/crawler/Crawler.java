@@ -22,15 +22,27 @@ import javax.xml.stream.XMLStreamException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+
 //import corpus.sinhala.crawler.controller.db.DataSourceException;
 
 //import corpus.sinhala.crawler.controller.SysProperty;
 
 public class Crawler {
+	
+	public Crawler(String saveLocation){
+		this.saveLocation = saveLocation;
+	}
 
 	public static void main(String[] args) throws IOException{
+		String temp;
+		if(args.length == 1){
+			temp = args[0];
+		}else{
+			return;
+		}
 		
-		Crawler crawler = new Crawler();
+		
+		Crawler crawler = new Crawler(temp);
 		try {
 			crawler.crawl(crawler.get_start());
 		} catch (InstantiationException e) {
@@ -55,7 +67,7 @@ public class Crawler {
 	public void crawl(int start) throws IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, XMLStreamException{
 		int index=start;
 		String urlString;
-		XMLFileWriter writer = new XMLFileWriter();
+		XMLFileWriter writer = new XMLFileWriter(saveLocation);
 		while(true){
 			
 			if(index==11){
@@ -82,7 +94,7 @@ public class Crawler {
 			}
 			}catch(FileNotFoundException e){
 				this.writeDB(index-1);
-				writer.update("/home/chamila/semester7/fyp/mahawansa");
+				writer.update("mahawansa" + (index-1));
 				break;
 			}
 
@@ -94,7 +106,7 @@ public class Crawler {
 			}
 			else{
 				this.writeDB(index-1);
-				writer.update("/home/chamila/semester7/fyp/mahawansa");
+				writer.update("mahawansa" + (index-1));
 				break;
 			}
 			
@@ -109,12 +121,13 @@ public class Crawler {
 	String url;
 	String uname;
 	String pwd;
+	String saveLocation;
 	
 	public int get_start(){
 		driverName = "com.mysql.jdbc.Driver";
-		url = "jdbc:mysql://"+"localhost"+":3306/crawler_data";
-		uname = "root";
-		pwd = "";
+		url = "jdbc:mysql://"+SysProperty.getProperty("dbHost")+":3306/crawler_data";
+		uname = SysProperty.getProperty("dbUser");
+		pwd = SysProperty.getProperty("dbPassword");
 		connect();
 		
 		String query = "SELECT * FROM mahawansa_size WHERE ID = 1";
