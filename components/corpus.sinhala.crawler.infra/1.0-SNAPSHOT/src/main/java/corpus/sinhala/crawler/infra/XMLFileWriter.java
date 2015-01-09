@@ -219,25 +219,9 @@ public class XMLFileWriter implements Observer {
 			root.addChild(docs.get(i));
 
 			documentCounter++;
-			System.out
-					.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-							+ documentCounter);
-//			if (documentCounter % maxDocumentCounter == 0) {
-//				try {
-//					writeToFile();
-//				} catch (IOException | XMLStreamException e) {
-//				}
-//				documentCounter = 0;
-//				root = factory.createOMElement(rootName);
-//			}
+
 		}
-		
-//		if(documentCounter>0){
-//			try {
-//				writeToFileTemp();
-//			} catch (IOException | XMLStreamException e) {
-//			}
-//		}
+
 		try {
 			writeToFile(message);
 		} catch (IOException | XMLStreamException e) {
