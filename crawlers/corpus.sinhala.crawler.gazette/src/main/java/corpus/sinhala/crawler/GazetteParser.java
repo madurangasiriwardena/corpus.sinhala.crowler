@@ -1,6 +1,7 @@
 package corpus.sinhala.crawler;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +17,11 @@ import org.apache.http.impl.client.HttpClients;
 //import org.jsoup.nodes.Document;
 //import org.jsoup.nodes.Element;
 //import org.jsoup.select.Elements;
+
+import org.apache.pdfbox.cos.COSDocument;
+import org.apache.pdfbox.pdfparser.PDFParser;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.util.PDFTextStripper;
 
 import com.snowtide.PDF;
 import com.snowtide.pdf.OutputTarget;
@@ -126,12 +132,55 @@ public class GazetteParser implements Parser{
 		return "GAZETTE";
 	}
 	
+	String pdftoText(String fileName) {
+		PDFParser parser;
+		String parsedText = null;;
+		PDFTextStripper pdfStripper = null;
+		PDDocument pdDoc = null;
+		COSDocument cosDoc = null;
+		File file = new File(fileName);
+		if (!file.isFile()) {
+			System.err.println("File " + fileName + " does not exist.");
+			return null;
+		}
+		try {
+			parser = new PDFParser(new FileInputStream(file));
+		} catch (IOException e) {
+			System.err.println("Unable to open PDF Parser. " + e.getMessage());
+			return null;
+		}
+		try {
+			parser.parse();
+			cosDoc = parser.getDocument();
+			pdfStripper = new PDFTextStripper();
+			pdDoc = new PDDocument(cosDoc);
+			pdfStripper.setStartPage(1);
+			parsedText = pdfStripper.getText(pdDoc);
+		} catch (Exception e) {
+			System.err
+					.println("An exception occured in parsing the PDF Document."
+							+ e.getMessage());
+		} finally {
+			try {
+				if (cosDoc != null)
+					cosDoc.close();
+				if (pdDoc != null)
+					pdDoc.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return parsedText;
+	}
+	
 	public String getPDFText (String pdfFilePath) throws IOException {
 //		PDFTextStream pdfts = new PDFTextStream(pdfFilePath); 
 		Document pdfts = PDF.open(pdfFilePath);
         StringBuilder str = new StringBuilder(1024);
         pdfts.pipe(new OutputTarget(str));
         pdfts.close();
+        
+        
         String text = str.toString();
         text = text.replace(",", "ල");
         //System.out.println(text);
@@ -487,7 +536,7 @@ public class GazetteParser implements Parser{
         text = text.replace("ª", "ඳූ");
         text = text.replace("¾", "ර්");
         text = text.replace("3/4", "ර්");
-        text = text.replace("3", "ර්");
+        //text = text.replace("3", "ර්");
         
         text = text.replace("À", "ඨි");
         text = text.replace("Á", "ඨී");
@@ -565,13 +614,13 @@ public class GazetteParser implements Parser{
         text = text.replace("L", "ඛ");
         text = text.replace("<", "ළ");
         text = text.replace("Û", "ඟ");
-        text = text.replace("Ë", "ඬ");
+        text = text.replace("Ë", "ක්‍ෂ");
         text = text.replace("K", "ණ");
         text = text.replace("M", "ඵ");
         text = text.replace("G", "ඨ");
         text = text.replace("#", "ඃ");
         text = text.replace("&", ")");
-        text = text.replace("(", ":");
+        
         text = text.replace(")", "-");
         text = text.replace("*", "ෆ");
         text = text.replace(",", "ල");
@@ -579,6 +628,7 @@ public class GazetteParser implements Parser{
         text = text.replace("-", "-");
         text = text.replace("/", "රැ");
         text = text.replace(":", "ථ");
+        text = text.replace("(", ":");
         text = text.replace(";", "ත");
         text = text.replace("<", "ළ");
         text = text.replace(">", "ඝ");
@@ -646,6 +696,7 @@ public class GazetteParser implements Parser{
         text = text.replace("ƨ", ":");
         text = text.replace("Ɣ", "%");
         text = text.replace("ɤ", "/");
+        text = text.replace("    ", " ");
         //System.out.printf("The text extracted from %s is:", pdfFilePath);
         //System.out.println(text.split("සතිපතා නිකකුත් වන ගැසට් පත්‍රයෙහි පළකිරීම  සඳහා භාරගනු ලබන දැන්වීම් පිළිබඳ")[1]);
         
