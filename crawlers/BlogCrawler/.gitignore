@@ -1,0 +1,9 @@
+target/*
+Blog.xml
+BlogRaw.xml
+.idea/*
+corpus.sinhala.crowler.iml
+cache.ser
+metadata.xml
+data/*
+fileID.ser
