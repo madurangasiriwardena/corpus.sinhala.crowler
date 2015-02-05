@@ -1,0 +1,85 @@
+/* v1.0 | 20080212 */
+html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, big, cite, code,del, dfn, em, font, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var,b, u, i, center,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td 
+{margin: 0;padding: 0;border: 0;outline: 0;vertical-align: baseline;background: transparent;}
+body {color: #333;direction: ltr;font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;font-size: 11px;background: transparent;}
+ol, ul {list-style: none;}
+blockquote, q {quotes: none;}
+blockquote:before, blockquote:after,q:before, q:after {content: '';content: none;}
+/* remember to define focus styles! */
+:focus {outline: 0;}
+/* remember to highlight inserts somehow! */
+ins {text-decoration: none;}
+del {text-decoration: line-through;}
+/* tables still need 'cellspacing="0"' in the markup */
+table {border-collapse: collapse;border-spacing: 0;}
+
+a {color: #3B5998;cursor: pointer;text-decoration: none;outline:expression(hideFocus='true'); outline:0;}
+a:hover {text-decoration: underline;}
+a:focus {outline:0;}
+
+.font24 {font-size:24px;}
+.font22 {font-size:22px;}
+.font14 {font-size:14px;}
+
+.notice { text-align: center; padding-top:5px; padding-bottom:5px; padding-left:12px; padding-right:12px; font-weight: bold; font-size:13px;-moz-border-radius: 3px;border-radius: 3px;-webkit-border-radius: 3px;}
+.notice td{ background-color:#C2D4EF;}
+span.notice {font-weight:bold;}
+span.noticeErr {color: #dd3c10; font-weight:bold;}
+span.noticeSuc {font-weight:bold;}
+
+table.loginbox {width:100%;height:100%;border-collapse:collapse;border-top:1px solid #DCDCD8;}
+table.loginbox td {width:50%;vertical-align:top;}
+table.loginbox td#right {border-left:1px solid #DCDCD8;}
+table.loginbox td#footer {vertical-align:top;padding-top:7px;border-top:1px solid #DCDCD8;padding-left:10px;}
+table.loginbox td#footer a {font-size:13px;}
+
+table.login {width:100%}
+table.login td{padding: 10px 20px 10px 40px;vertical-align:top;}
+
+div.contentbox {padding: 10px 20px 10px 20px;}
+
+.fb_logo2 {padding:3px 10px 2px 10px;background-color:#3B5998;text-align:center;}
+
+.social_widget_main td{vertical-align:top;}
+table.social_widget {width:auto;border-spacing: 2px 2px;width:100%;}
+table.social_widget td {border-spacing: 0px 0px;padding:1px 5px 0px 0px;}
+table.social_widget_frame2 {width:auto;border-spacing: 2px 2px;}
+table.social_widget_frame2 td {border-spacing: 0px 0px;padding:1px 15px 0px 0px;}
+.frame2 {display:none;}
+#exchange {cursor:pointer;}
+
+table.social_widget2 {width:auto;border-spacing: 2px 2px;vertical-align:top;}
+table.social_widget2 td {border-spacing: 0px 0px;padding:0px 5px 0px 0px;vertical-align:top;}
+
+table.social_widget_vertical {width:auto;border-spacing: 2px 2px;vertical-align:top;}
+table.social_widget_vertical td {border-spacing: 0px 0px;padding:5px 5px 0px 0px;vertical-align:top;}
+
+a.retweet {border: 1px solid #A7D2DF;display: block;float: left;padding: 2px 4px;-moz-border-radius: 3px;border-radius: 3px;-webkit-border-radius: 3px;background-color:#DFF8FF;text-decoration:none;}
+a.retweet:hover {border-color: #77B0BF;}
+.retweet_text {background: url(/twitter_blue_13.png) no-repeat 0% 0px;line-height: 14px;display: block;padding-left: 18px;}
+
+a.retweet_done {border: 1px solid #317B9F;display: block;float: left;padding: 2px 4px;-moz-border-radius: 3px;border-radius: 3px;-webkit-border-radius: 3px;background-color:#5599BB;text-decoration:none;}
+.retweet_done_text {background: url(/twitter_13.png) no-repeat 0% 0px;line-height: 14px;display: block;padding-left: 18px;color:#FFFFFF;}
+
+a.retweet_error {border: 1px solid #dd3c10;display: block;float: left;padding: 2px 4px;-moz-border-radius: 3px;border-radius: 3px;-webkit-border-radius: 3px;background-color:#ffebe8;text-decoration:none;}
+.retweet_error_text {background: url(/twitter_blue_13.png) no-repeat 0% 0px;line-height: 14px;display: block;padding-left: 18px;}
+
+a.share {border: 1px solid #C3CDDF;display: block;float: left;padding: 2px 4px;-moz-border-radius: 3px;border-radius: 3px;-webkit-border-radius: 3px;background-color:#EFF3FF;text-decoration:none;}
+a.share:hover {border-color: #9DACCE;}
+.share_text {background: url("/images/facebook_icons.png") no-repeat 0% -47px;line-height: 14px;display: block;padding-left: 18px;}
+
+a.share_done {border: 1px solid #3A589B;display: block;float: left;padding: 2px 4px;-moz-border-radius: 3px;border-radius: 3px;-webkit-border-radius: 3px;background-color:#6C83B9;text-decoration:none;}
+.share_done_text {background: url("/images/facebook_icons.png") no-repeat 0% -47px;line-height: 14px;display: block;padding-left: 18px;color:#FFFFFF;}
+
+a.share_error {border: 1px solid #dd3c10;display: block;float: left;padding: 2px 4px;-moz-border-radius: 3px;border-radius: 3px;-webkit-border-radius: 3px;background-color:#ffebe8;text-decoration:none;}
+.share_error_text {background: url("/images/facebook_icons.png") no-repeat 0% -47px;line-height: 14px;display: block;padding-left: 18px;}
+
+.text_count {display: block;float: left;padding: 3px 5px 0px 0px;font-weight:bold;font-size:13px;}
+
+/*Blogger*/
+table.social_widget_blogger_main {width:260px;border-collapse:collapse;}
+table.social_widget_blogger_main td{vertical-align:top;padding-bottom:3px;}
+table.social_widget_blogger {width:100%;border-collapse:collapse;}
+table.social_widget_blogger td{vertical-align:top;width:50%;border:0px solid #DFDFDF;}
+
+.blogger_footer {text-align:center;width:240px;}

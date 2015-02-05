@@ -42,7 +42,7 @@ public class WijayaParser implements Parser {
 	
 	public String getYear(){
 		
-		return doc.select("div[class=dateline").first().text().split(" ")[4];
+		return doc.select("div[class=dateline").first().text().split(" ")[4].substring(0,4);
 	}
 	
 	public String getMonth(){
