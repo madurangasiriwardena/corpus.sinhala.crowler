@@ -1,0 +1,149 @@
+﻿/*---------------------------------------------------
+Designed by sameera
+Designers Home: http://www.teclanka.com
+---------------------------------------------------*/
+
+/* Menü allgemein */
+ul.menu_lv_dropdown {
+	margin : 0;
+	padding : 0;
+	width : 100%;
+	float:left; /* FF-2.x */
+	display:inline-block;
+	list-style : none;
+	z-index:100;
+	background:#232323 !important;
+	position:relative;
+	white-space: nowrap;
+	border-top: 1px solid #999;
+	border-bottom: 1px solid #999;
+}
+ul.menu_lv_dropdown li {
+	margin : 0;
+	padding : 0;
+	float: left;
+	position: relative;
+	background: none;
+	list-style:none;
+}
+ul.menu_lv_dropdown li ul {
+	display:block;
+	height:auto;
+	width: 185px;
+	margin: 0;
+	padding : 0;
+	position:absolute;
+	z-index: 99;
+	left: -999em;
+}
+ul.menu_lv_dropdown li ul ul {
+	margin: -30px 0 0 185px;
+}
+ul.menu_lv_dropdown li li {
+	width: 185px;
+}
+ul.menu_lv_dropdown li ul {
+	left: -999em;
+}
+ul.menu_lv_dropdown li:hover ul ul, ul.menu_lv_dropdown li:hover ul ul ul {
+	left: -999em;
+}
+ul.menu_lv_dropdown li:hover ul, ul.menu_lv_dropdown li li:hover ul, ul.menu_lv_dropdown li li li:hover ul {
+	left: auto;
+}
+
+/* Menü Ebene  1 */
+ul.menu_lv_dropdown li a, ul.menu_lv_dropdown li span.separator {
+	display: block;
+	cursor: pointer;
+	background: #FCB794;
+	color : #999;
+	padding-left : 10px;
+	padding-right : 10px;
+	margin: 0;
+	text-transform: none;
+	text-align: center;
+	height: 28px;
+	line-height: 28px;
+	font-weight: normal;
+	font-size: 14px;
+	width: auto;
+	border-right: 1px solid #333;
+	text-decoration:none;
+}
+ul.menu_lv_dropdown li a:hover {
+	text-decoration:none;
+	color : #fff;
+	background-color: #181818;
+}
+ul.menu_lv_dropdown li.active a {
+	color : #fff;
+	background-color: #181818;
+}
+ul.menu_lv_dropdown li.parent a, ul.menu_lv_dropdown li.parent span.separator {
+	background-image: url(../images/menu_parent.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	padding-right: 30px;
+}
+ul.menu_lv_dropdown li.parent a:hover, ul.menu_lv_dropdown li.parent span.separator:hover {
+	background-image: url(../images/menu_parent_hover.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	padding-right: 30px;
+}
+ul.menu_lv_dropdown li#current.parent a, ul.menu_lv_dropdown #current.parent span.separator {
+	background-image: url(../images/menu_parent_hover.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	padding-right: 30px;
+}
+ul.menu_lv_dropdown li a span {
+}
+ul.menu_lv_dropdown li a:hover span {
+}
+/* Menü Ebene  2 */
+ul.menu_lv_dropdown li li a {
+	color: #999;
+	background: none !important;
+	border-top: 1px solid #050505;
+	border-left: 1px solid #222;
+	border-bottom: 1px solid #333;
+	border-right: 1px solid #333;
+	text-transform:none;
+	text-align: left;
+	font-size: 11px;
+	display: block;
+	padding-left: 10px;
+	width: auto;
+	height: 28px;
+	line-height: 28px;
+}
+ul.menu_lv_dropdown li li a:hover {
+	background: none !important;
+	color : #fff;
+}
+ul.menu_lv_dropdown li li {
+	color:#fff;
+	background-color: #171717;
+}
+ul.menu_lv_dropdown li li:hover {
+	background-color: #212121;
+	color : #999;
+}
+ul.menu_lv_dropdown li li.parent {
+	background-image: url(../images/menulili_parent.gif) !important;
+	background-position: right !important;
+	background-repeat: no-repeat !important;
+}
+ul.menu_lv_dropdown li li.parent:hover {
+	background-image: url(../images/menulili_parent_hover.gif) !important;
+	background-position: right !important;
+	background-repeat: no-repeat !important;
+}
+ul.menu_lv_dropdown li li a span {
+	background: none !important;
+}
+ul.menu_lv_dropdown li li a:hover span {
+	background: none !important;
+}

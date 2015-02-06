@@ -18,12 +18,12 @@ public class LakbimaParser implements Parser{
 		doc = Jsoup.parse(page);
 		this.url = url;
 		titleElement =  doc.select("h1[class=contentheading]").first();
-
+		titleElement =  doc.select("h1[class=contentheading]").first();
 	}
 	
 	public String getTitle(){
 		
-			titleElement =  doc.select("h1[class=contentheading]").first();
+			
 		
 			return titleElement.text();
 	}
@@ -109,7 +109,7 @@ public class LakbimaParser implements Parser{
 	}
 	
 	public String getCategory() {
-		return "NEWSPAPER";
+		return "NEWS";
 	}
 	
 }
