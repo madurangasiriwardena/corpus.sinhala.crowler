@@ -1,0 +1,335 @@
+a:link.two {color: #666666; text-decoration:none;}
+a:visited.two {color: #666666; text-decoration:none;}
+a:hover.two {color: #FF9900}
+
+a:link {color: #666666; text-decoration:none;}
+a:visited {color: #666666; text-decoration:none;}
+a:hover {color: #999999}
+
+a:link.mlink {color: #FFFFFF; text-decoration:none;}
+a:visited.mlink {color: #FFFFFF; text-decoration:none;}
+a:hover.mlink {color: #FEAD13}
+
+body
+{
+	font-family: Malithi Web;
+	font-size:11pt;
+	color: #000000;
+	padding: 0px;
+	text-align: left; 
+}
+
+h1, h2, h3, h4, h5, h6
+{
+	font-family: Malithi Web;
+}
+
+h1{
+	font-size: 18px;
+	color: #000000;
+	font-weight: bold;
+	padding: 0px;
+	text-align:left;
+	vertical-align:baseline;
+	line-height:20px;
+	margin-left:1pt;
+	margin-right:5px;
+	margin-top:6pt;
+	margin-bottom:6px;	
+}
+
+h2{
+ 	font-size: 10pt;
+ 	color: #333333;
+ 	padding: 0px;
+ 	font-weight: light;
+ 	text-align:left;
+ 	vertical-align:baseline; 
+ 	line-height:16px; 
+ 	margin-left:2px; 
+ 	margin-right:5px; 
+ 	margin-top:6pt; 
+ 	margin-bottom:6px;
+}
+
+h4{
+ 	font-size: 13px;
+ 	padding: 0px;
+ 	text-align:center;
+ 	vertical-align:baseline; 
+ 	margin-top:6pt; 
+ 	margin-bottom:6pt;
+}
+
+
+.A_Intro1
+{
+	color: #333333; 
+	font-size: 10.5pt; 
+	text-align:left; 
+	word-spacing:0; 
+	margin-left: 2px; 
+	margin-right: 2px; 
+	margin-top: 3px; 
+	margin-bottom: 2px; 
+	vertical-align:baseline 
+}
+
+.A_byline
+{
+	font-family: Malithi Web;
+	color: #000000; 
+	font-size: 13px; 
+	text-align:left; 
+	line-height:120%; 
+	word-spacing:0; 
+	letter-spacing:1pt; 
+	margin-left: 1pt; 
+	margin-right: 40pt; 
+	margin-top: 12px; 
+	margin-bottom: 5px; 
+	vertical-align:baseline
+}
+
+.A_intro
+{
+ 	color: #333333; 
+	font-size: 10.5pt; 
+	text-align:left; 
+	line-height:12pt; 
+	word-spacing:0; 
+	margin-left:1px; 
+	margin-right:10pt; 
+	margin-top:3pt; 
+	margin-bottom:1pt; 
+	vertical-align:baseline 
+}
+
+.A_news
+{
+	color: #000000; 
+	font-size: 11pt; 
+	text-align:left; 
+	line-height: 130%; 
+	word-spacing:0; 
+	margin-left: 5px; 
+	margin-right: 5px; 
+	margin-top: 3pt; 
+	margin-bottom: 10px; 
+	vertical-align:baseline 
+}
+
+.A_Strap
+{
+	font-variant: small-caps; 
+	color: #333333; 
+	font-size: 15px; 
+	letter-spacing: 1pt; 
+	vertical-align: baseline; 
+	text-align:left; 
+	word-spacing:0; 
+	line-height:120%; 
+	margin-left: 1pt; 
+	margin-right: 40pt; 
+	margin-top: 5px; 
+	margin-bottom: 5px;
+}
+
+.A_caption{ 
+	
+	font-size: 9.5pt;
+	text-align: justify; 
+	line-height: 10.5pt; 
+	color: #4b516b; 
+	letter-spacing: 0pt;
+	margin:5px 6px; 
+	word-spacing: 0;
+	vertical-align: baseline		 
+}
+
+
+.A_DateLine
+{
+	color: #000000; 
+	font-size: 12px;
+	text-align: center;
+	word-spacing: 0;
+	margin-left:0;
+	margin-right:0;
+	margin-top:3pt;
+	margin-bottom:3pt;
+}
+
+
+img.pic
+{
+	width:200px;
+}
+
+img.pica
+{
+	width:350px;
+}
+
+ul{ list-style-image: url('/budusarana/b_images/arrow.gif'); margin-left:30px}
+
+.b_VLine
+{
+	color: #FF9933
+}
+
+
+.ftlnk{
+	color: #FF9933;
+	font-size: 10pt;
+	text-align: center;
+	word-spacing: 0;
+	line-height: 120%;
+	margin-left:0;
+	margin-right:0;
+	margin-top:3pt;
+	margin-bottom:3pt;
+}
+
+.ftlnk1{
+	color: #FFFFFF;
+	font-size:11px;
+	text-align: center;
+	word-spacing: 0;
+	line-height: 120%;
+	margin-left:0;
+	margin-right:0;
+	margin-top:3pt;
+	margin-bottom:3pt;
+}
+
+.fullstory{
+	color: #000000; 
+	font-size: 12px; 
+	font-weight: bold;
+	letter-spacing: 1px; 
+	vertical-align: baseline; 
+	text-align:right; 
+	word-spacing:0; 
+	line-height:200%; 
+	margin-left:1pt; 
+	margin-right: 5px; 
+	margin-top: 1px; 
+}
+
+.poyahd{
+	color: #FFFFFF; 
+	font-size: 14px; 
+	font-weight: bold; 
+	text-align: center; 
+	margin: 4px
+}
+
+.poyaDay{
+	color: #000000; 
+	font-size: 20px; 
+	font-weight: bold; 
+	text-align: center; 
+	margin: 5px
+}
+
+.poyaIntro{
+	color: #000000; 
+	font-size: 13px; 
+	text-align: center; 
+	margin: 5px;
+}
+
+.bgleft
+{
+	background-image: url('/budusarana/extras/bgLeft.jpg'); 
+	background-repeat: repeat-y; 
+	background-attachment: fixed; 
+	background-position: right top
+}
+
+.bgright
+{
+	background-image: url('/budusarana/extras/bgRight.jpg'); 
+	background-repeat: repeat-y; 
+	background-attachment: fixed; 
+	background-position: left top
+}
+
+.beng{
+	font-family: Verdana; 
+	font-size: 10pt
+}
+
+.bengby{
+	font-family: Verdana; 
+	font-size: 11px; font-variant:small-caps
+}
+
+.benghd{
+	font-family: Verdana; 
+	font-size: 14px; font-weight:bold
+}
+
+
+.bengstrap
+
+{
+	font-family: Verdana; 
+	font-size: 12px; 
+	font-weight:bold;
+	text-align: center;
+}
+
+
+	
+.mpicbordertop{
+	background-image: url('/budusarana/extras/mpicbdr_top.jpg'); 
+	background-repeat: no-repeat; 
+	background-attachment: fixed; 
+	background-position: left top;
+}
+
+.mpicborderbot{
+	background-image: url('/budusarana/extras/mpicbdr_bot.jpg');
+	background-repeat: no-repeat; 
+	background-attachment: fixed; 
+	background-position: left top;
+}
+
+.bt{
+	font-family: Verdana; 
+	font-size: 10px; font-variant:small-caps; color:#000000; font-weight:bold
+}
+
+.path{
+	font-family: Verdana; 
+	font-size: 9px; 
+	font-variant:small-caps; 
+	color:#000000; 
+	font-weight:bold
+}
+
+.PopBoxImageSmall
+{
+	border: none 0px #ffffff;
+	cursor: url("/budusarana/extras/magplus.cur"), pointer;
+}
+.PopBoxImageLarge
+{
+	border: solid 1px #999999;
+	cursor: url("/budusarana/extras/magminus.cur"), pointer;
+}
+.PopBoxImageShrink
+{
+	cursor: url("/budusarana/extras/magminus.cur"), pointer;
+}
+.PopBoxImageLink
+{
+	cursor: pointer;
+}
+.PopBoxImageMove
+{
+	border: none 0px #ffffff;
+	cursor: pointer;
+}
