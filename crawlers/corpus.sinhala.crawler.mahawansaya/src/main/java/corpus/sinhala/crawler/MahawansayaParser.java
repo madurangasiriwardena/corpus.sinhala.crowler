@@ -21,6 +21,11 @@ public class MahawansayaParser {
 		// TODO Auto-generated method stub
 		return "OLD";
 	}
+	
+	public String getAuthor() {
+		// TODO Auto-generated method stub
+		return "";
+	}
 
 	public String getMonth() {
 		// TODO Auto-generated method stub
