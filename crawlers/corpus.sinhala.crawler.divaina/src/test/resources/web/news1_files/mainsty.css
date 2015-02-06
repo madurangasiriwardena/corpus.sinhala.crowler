@@ -1,0 +1,49 @@
+.mainsty {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #000000;
+	text-decoration: none;
+}
+
+.hsty1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	color: #273A27;
+}
+
+.hsty2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #000000;
+}
+a:visited {
+	color: #663366;
+	text-decoration: none;
+}
+
+a:link {
+	color: #0000ff;
+	text-decoration: none;
+}
+a:hover {
+	
+	color: #0000ff;
+	text-decoration: underline;
+	
+
+}
+.txtbox {
+		font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	background-color: #F7F9F7;
+	border: 1px inset #D6CFC0;
+	color: #000000;
+
+}
+
+.buttonsty {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	background-color: #F8FCF8;
+	border: 1px inset #D6CFC0;
+}
