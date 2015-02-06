@@ -20,7 +20,7 @@ public class WijayaParserTest extends TestCase {
     @BeforeClass
     public void setUp() throws Exception {
         
-        String content = Files.toString(new File("/home/chamila/semester7/fyp/corpus.sinhala.crowler/crawlers/corpus.sinhala.crawler.wijaya/src/test/resources/web/archives/3000/index.html"), Charsets.UTF_8);
+        String content = Files.toString(new File("/home/chamila/semester7/fyp/corpus.sinhala.crowler/crawlers/corpus.sinhala.crawler.wijaya/src/test/resources/web/wijeya/archives/3000/index.html"), Charsets.UTF_8);
 //      System.out.println("hhhhhhhhhh");
         parser = new WijayaParser(content, "http://www.wijeya.lk/archives/3300");
     }
