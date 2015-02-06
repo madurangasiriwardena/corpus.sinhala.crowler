@@ -16,11 +16,12 @@ public class RavayaParser implements Parser {
 	public RavayaParser(String page, String url){
 		doc = Jsoup.parse(page);
 		this.url = url;
+		titleElement =  doc.select("h1").first();
 	}
 	
 	public String getTitle(){
 		
-			titleElement =  doc.select("h1").first();
+			
 		
 			return titleElement.text();
 	}
@@ -55,7 +56,7 @@ public class RavayaParser implements Parser {
 	
 	public String getYear(){
 		
-		return doc.select("div[class=prl-article-meta]").first().text().split(" ")[2];
+		return doc.select("div[class=prl-article-meta]").first().text().split(" ")[2].substring(0,4);
 	}
 	
 	public String getMonth(){
