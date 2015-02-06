@@ -1,0 +1,354 @@
+a:link
+{
+	color: #333333;
+	text-decoration: none;
+}
+img          { word-spacing: 0; margin-bottom: 0;}
+.vspace0     { margin-top: 0; margin-bottom: 0 }
+.kavi        { font-weight: bold; margin-top: 2; margin-bottom: 6 }
+.kavimaduwa  { font-size: 8pt; color: #0000FF; text-align: left; margin-top: 0; 
+               margin-bottom: 0; padding-left: 15px; padding-right: 2px;
+}
+a:hover 
+{
+	color: #666666;
+	text-decoration: none;
+}
+a:visited
+{
+	color: #666666;
+	text-decoration: none;
+} 
+a:link.navS  
+{ 	
+	color: #808080; 
+	text-decoration: none 
+}
+a:hover.navS  
+{ 	
+	color: #333333; 
+	text-decoration: none; 
+}
+a:visited.navS  
+{ 	
+	color: #808080; 
+	text-decoration: none 
+}
+a:link.naveExtra  
+{ 	
+	color: #2E2E2E; 
+	text-decoration: none; 
+}
+a:hover.naveExtra  
+{ 	
+	color: #2E2E2E; 
+	text-decoration: none; 
+}
+a:visited.naveExtra  
+{ 	
+	color: #2E2E2E; 
+	text-decoration: none; 
+}
+body
+{
+	font-family: Malithi Web;
+	margin:0; 
+	background-image:url('/img/main_bg_4.jpg'); 
+	background-position-x:center
+}
+.navS  
+{ 
+	font-size: 9pt; 
+	color: #800000; 
+	text-decoration: none; 
+	text-align:left; 
+	line-height: 13px;
+	margin-right: 15px; 
+	margin-top: 10pt; 
+	margin-bottom: 1pt; 
+	text-indent:0; 
+	margin-left:0 
+}
+.naveExtra  
+{ 
+	font-size: 9pt; 
+	color: #800000; 
+	text-decoration: none; 
+	text-align:left; 
+	line-height: 13px;
+	margin-right: 15px; 
+	margin-top: 2pt; 
+	margin-bottom: 1pt; 
+	text-indent:0; 
+	margin-left:0 
+}
+.print       
+{ 
+	font-size: 10px; 
+	text-align: right; 
+	color: #800000; 
+	margin-left: 10px; 
+    margin-right: 5px; 
+    margin-top: 0; 
+    margin-bottom: 0 
+}
+ul
+{ 
+	list-style-image: url('/img/bul1.jpg'); 
+	margin-left:12pt;
+	vertical-align:baseline
+}
+.byline      {
+	font-size: 9pt;
+	text-align: left;
+	color: #666666;
+	line-height:120%; 
+	word-spacing:0; 
+	margin-left: 1pt; 
+	margin-right: 40pt; 
+	margin-top: 12px; 
+	margin-bottom: 5px; 
+	vertical-align:baseline
+}
+.bylineLong     {
+	font-size: 9pt;
+	text-align: left;
+	color: #666666;
+	line-height:100%; 
+	word-spacing:0; 
+	margin-left: 1pt; 
+	margin-right: 20pt; 
+	margin-top: 6px; 
+	margin-bottom: 3px; 
+	vertical-align:baseline
+}
+table
+{
+	table-border-color-light: rgb(255,255,153);
+	table-border-color-dark: rgb(255,255,51); 
+}
+h1, h2, h3, h4, h5, h6
+{
+	font-family: Malithi Web;
+}
+h1
+{
+	color: #FF0000;
+	font-size:1.2em; 
+	text-align:left; 
+	margin-top:5; 
+	margin-bottom:2; 
+ 	padding: 0px;
+ 	vertical-align:baseline; 
+ 	line-height:100%; font-weight:bold 
+}
+h2
+{
+	color: #000080;
+	font-size:1.1em; 
+	text-align:left; 
+	margin-top:5; 
+	margin-bottom:2; 
+ 	padding: 0px;
+ 	vertical-align:baseline; 
+ 	line-height:12pt; 
+}
+h3
+{
+	color: #808080;
+	font-size:1em; 
+	font-style:italic; 
+	font-weight:bold; 
+	text-align:left; 
+	margin-top:3; 
+	margin-bottom:3 
+}
+h4
+{
+	color: #800080;
+	font-size:0.9em; 
+	font-weight:bold
+}
+h5
+{
+	color: #000080;
+	font-size:0.9em; 
+	font-weight:bold
+}
+h6
+{
+	color: #614736;
+	font-size:0.9em; 
+	font-weight:bold
+}
+td.main
+{
+	background-position: left bottom; 
+	color: #000000; 
+	font-size: 14px; 
+	line-height: 120%; 
+	word-spacing:0; 
+	vertical-align:baseline; 
+	margin-left:10pt; 
+	margin-right:15pt; 
+	margin-top:3pt; 
+	padding-left:6px; 
+	padding-right:0pt; 
+	padding-top:0; 
+	padding-bottom:0pt;
+	margin-bottom:10pt; 
+	background-image:url('/img/bg2.gif'); 
+	background-repeat:no-repeat; 
+	background-color:#F2F8FF 
+}
+td.main_in
+{
+	background-position: right top; 
+	font-size: 14px; 
+	line-height: 120%; 
+	word-spacing:0; 
+	margin-top:10pt; 
+	padding-left:2px; 
+	padding-right:10px; 
+	padding-top:10px; 
+	padding-bottom:3px;
+	margin-bottom:5pt; 
+	background-image:url('/img/bg1.gif'); 
+	background-repeat:no-repeat; 
+	text-align:left 
+}
+td.main2
+{
+	background-position: left bottom; 
+	color: #000000; 
+	font-size: 14px; 
+	line-height: 120%; 
+	word-spacing:0; 
+	vertical-align:baseline; 
+	margin-left:10pt; 
+	margin-right:15pt; 
+	margin-top:3pt; 
+	padding-left:6px; 
+	padding-right:0pt; 
+	padding-top:0; 
+	padding-bottom:6pt;
+	margin-bottom:10pt; 
+	background-image:url('/img/bg2.gif'); 
+	background-repeat:no-repeat; 
+	background-color:#E1EFFF 
+}
+td.mainPic2
+{
+	background-position: left bottom; font-size: 14px; 
+	line-height: 120%; 
+	word-spacing:0; 
+	vertical-align:baseline; 
+	margin-left:10pt; 
+	margin-right:15pt; 
+	margin-top:3pt; 
+	padding-left:0; 
+	padding-right:0pt; 
+	padding-top:0; 
+	padding-bottom:10pt;
+	margin-bottom:10pt; 
+	background-image:url('/img/bg2.gif'); 
+	background-repeat:no-repeat  
+}
+.news        
+{ 
+	font-size: 10pt; 
+	color: #333333; 
+	margin-top: 0; 
+	margin-bottom: 0; 
+	padding-left: 5px; 
+	padding-right: 5px; 
+	text-align:left 
+}
+.strap       
+{ 
+	font-size: 10pt; 
+	text-align:left; 
+	color:#800000; 
+	margin-top:1; 
+	margin-bottom:1; font-weight:bold
+}
+.intro       
+{
+	font-size: 9pt;
+ 	color: #333333; 
+	text-align:left; 
+	line-height:13px; 
+	word-spacing:0; 
+	margin-left:1px; 
+	margin-right:10pt; 
+	margin-top:3pt; 
+	margin-bottom:1pt; 
+	vertical-align:baseline 
+}
+.in_more
+{
+	font-size: 9px;
+	color: #FFFFFF;
+	text-align: right;
+	padding-right: 5px; margin-top:5; 
+}
+img.cornerR {
+	background-position: right top; 
+	vertical-align: top;
+	float: right;
+	hspace:0; 
+	position:absolute; 
+	background-image:url('/img/bg1.gif'); 
+	background-repeat:no-repeat
+}
+td.space {
+	height: 5px;
+	width: 100%;
+}
+td.mainPic
+{
+	vertical-align:baseline;
+	padding-left:5px;
+	padding-right:5px;
+	padding-top:2px;
+	padding-bottom:2px;
+	text-align: center;
+}
+.caption
+{
+	margin:0px 5px; text-align: left;
+	line-height: 12px;
+	color: #000000;
+	font-size: 11px;
+	vertical-align: baseline;
+	padding-left:5px; padding-right:5px
+}
+.caption1
+{
+	margin:0px 5px; text-align: center;
+	line-height: 12px;
+	color: #800000;
+	font-size: 11px;
+	vertical-align: baseline;
+	padding-left:5px; padding-right:5px
+}
+td.Seperator_Tblue
+{
+	border: 10px;
+	border-color: #FF00CC;
+	
+}
+.pichead     
+{
+	font-size: 10pt;
+	color: #000000;
+	text-align: center;
+	margin-top: 6;
+	margin-bottom: 6;
+	font-weight:bold
+}
+.mainpicture 
+{ 
+	padding: 0; 
+	margin-top:0; margin-bottom:0 
+}
