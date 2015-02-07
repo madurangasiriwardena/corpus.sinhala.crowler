@@ -1,14 +1,7 @@
 package corpus.sinhala.crawler;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.URL;
+import java.io.*;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -52,10 +45,10 @@ public class AdaDeranaGenerator extends Generator {
 	boolean startDate;
 
 	boolean listEmpty;
-	Queue<String> urls;
+
 
 	NetworkConnector nc;
-
+    private Queue<String> urls;
 	public AdaDeranaGenerator(int sYear, int eYear, int sMonth, int eMonth,
 			int sDate, int eDate, String host, int port) {
 
@@ -72,7 +65,7 @@ public class AdaDeranaGenerator extends Generator {
 		date = sDate;
 
 
-		urls = new LinkedList<String>();
+        urls = new LinkedList<String>();
 
 		dt = new DateTime(sYear, sMonth, sDate, 0, 0, 0, 0);
 
@@ -130,69 +123,81 @@ public class AdaDeranaGenerator extends Generator {
 				startDate = false;
 			}
 
-			HttpPost post = new HttpPost("http://sinhala.adaderana.lk/news_archive.php?srcRslt=1");
-	    	List<NameValuePair> params = new ArrayList<NameValuePair>(5);
-	    	params.add(new BasicNameValuePair("srcCategory", "999"));
-	    	params.add(new BasicNameValuePair("srcYear", year+""));
-	    	params.add(new BasicNameValuePair("srcMonth", month+""));
-	    	params.add(new BasicNameValuePair("srcDay", date+""));
-	    	params.add(new BasicNameValuePair("Submit", "Search"));
-			post.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-
-			HttpClient httpclient = HttpClients.createDefault();
-			HttpResponse response = httpclient.execute(post);
-			HttpEntity entity = response.getEntity();
-
-			if (entity != null) {
-				InputStream instream = entity.getContent();
-
-				String line = null;
-				StringBuffer tmp = new StringBuffer();
-				BufferedReader in = new BufferedReader(new InputStreamReader(
-						instream, "UTF-8"));
-				while ((line = in.readLine()) != null) {
-					tmp.append(line);
-				}
-				Document doc = Jsoup.parse(String.valueOf(tmp));
-				Elements urlList = doc.select("div[class=story-text]");
-				for(int i=0; i<urlList.size(); i++){
-					
-					String tempUrl = urlList.get(i).select("h4").get(0).select("a").get(0).attr("href");
-					tempUrl = "http://sinhala.adaderana.lk/"+tempUrl;
-					if( !urls.contains(tempUrl))
-					urls.add(tempUrl);
-				}
-			}
-
+			generateUrlList("http://sinhala.adaderana.lk/news_archive.php?srcRslt=1");
 			
 			System.out.println(urls.isEmpty());
 		}
 
 		String urlString = urls.remove();
-		URL url = new URL(urlString);
-		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
-				"cache.mrt.ac.lk", 3128));
-		// HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
-		HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
-		try {
-			uc.connect();
-			String line = null;
-			StringBuffer tmp = new StringBuffer();
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					uc.getInputStream(), "UTF-8"));
-			while ((line = in.readLine()) != null) {
-				tmp.append(line);
-			}
-
-			Document doc = Jsoup.parse(String.valueOf(tmp));
-			doc.setBaseUri(urlString);
-			return doc;
-
-		} catch (IOException e) {
-
-		}
-		return null;
+		return getDocumentFromURL(urlString);
 	}
 
+    public Document getDocumentFromURL(String urlString) throws IOException, MalformedURLException {
+        URL url = new URL(urlString);
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
+                "cache.mrt.ac.lk", 3128));
+        // HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
+        HttpURLConnection uc = (HttpURLConnection) url.openConnection();
+
+        try {
+            uc.connect();
+            String line = null;
+            StringBuffer tmp = new StringBuffer();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    uc.getInputStream(), "UTF-8"));
+            while ((line = in.readLine()) != null) {
+                tmp.append(line);
+            }
+
+            Document doc = Jsoup.parse(String.valueOf(tmp));
+            doc.setBaseUri(urlString);
+            return doc;
+
+        } catch (IOException e) {
+
+        }
+        return null;
+    }
+
+    public void  generateUrlList(String sourceURL) throws IOException {
+        HttpPost post = new HttpPost(sourceURL);
+        List<NameValuePair> params = new ArrayList<NameValuePair>(5);
+        params.add(new BasicNameValuePair("srcCategory", "999"));
+        params.add(new BasicNameValuePair("srcYear", year+""));
+        params.add(new BasicNameValuePair("srcMonth", month+""));
+        params.add(new BasicNameValuePair("srcDay", date+""));
+        params.add(new BasicNameValuePair("Submit", "Search"));
+        post.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+
+        HttpClient httpclient = HttpClients.createDefault();
+        HttpResponse response = httpclient.execute(post);
+        HttpEntity entity = response.getEntity();
+
+        if (entity != null) {
+            InputStream instream = entity.getContent();
+
+            String line = null;
+            StringBuffer tmp = new StringBuffer();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    instream, "UTF-8"));
+            while ((line = in.readLine()) != null) {
+                tmp.append(line);
+            }
+            Document doc = Jsoup.parse(String.valueOf(tmp));
+            Elements urlList = doc.select("div[class=story-text]");
+            for(int i=0; i<urlList.size(); i++){
+
+                String tempUrl = urlList.get(i).select("h4").get(0).select("a").get(0).attr("href");
+                tempUrl = "http://sinhala.adaderana.lk/"+tempUrl;
+                if( !urls.contains(tempUrl))
+                    urls.add(tempUrl);
+            }
+        }
+
+    }
+
+    public Queue<String> getUrls() {
+        return urls;
+    }
 }
