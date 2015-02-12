@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.jsoup.Jsoup;
@@ -42,13 +43,11 @@ public class SiluminaGenerator extends Generator{
 	Queue<String> urls;
 
 	corpus.sinhala.crawler.infra.network.NetworkConnector nc;
+	private final static Logger logger = Logger.getLogger(SiluminaGenerator.class);
 
 	public SiluminaGenerator(int sYear, int eYear, int sMonth, int eMonth,
 			int sDate, int eDate, String host, int port) {
-		//System.out.println("aaaaaaa");
-		// System.setProperty("http.proxyHost", "cache.mrt.ac.lk");
-		// System.setProperty("http.proxyPort", "3128");
-
+		
 		this.sYear = sYear;
 		this.eYear = eYear;
 		this.sMonth = sMonth;
@@ -94,7 +93,7 @@ public class SiluminaGenerator extends Generator{
 		try {
 			nc.connect(host, port);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 
@@ -141,6 +140,7 @@ public class SiluminaGenerator extends Generator{
 						nc.send("close");
 						nc.close();
 					}catch(IOException e1){
+						logger.error(e1);
 						return null;
 					}
 					
@@ -150,9 +150,6 @@ public class SiluminaGenerator extends Generator{
 			String urlString = listGenerator();
 			URL url = new URL(urlString);
 			System.out.println("-----"+urlString);
-			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
-					"cache.mrt.ac.lk", 3128));
-//			 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
 			HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
 			try {
@@ -175,15 +172,13 @@ public class SiluminaGenerator extends Generator{
 					urls.add(base+tempUrl);
 				}
 			} catch (IOException e) {
+				logger.error(e);
 			}
 			articleNameId++;
 		}
 		
 		String urlString = urls.remove();
 		URL url = new URL(urlString);
-		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
-				"cache.mrt.ac.lk", 3128));
-//		 HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
 		HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 		try {
 			uc.connect();
@@ -200,7 +195,7 @@ public class SiluminaGenerator extends Generator{
 			return doc;
 			
 		} catch (IOException e) {
-
+			logger.error(e);
 		}
 return null;
 	}
