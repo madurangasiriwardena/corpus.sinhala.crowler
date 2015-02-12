@@ -1,31 +1,42 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
 package corpus.sinhala.crawler.blog.rss;
 
 import java.io.*;
 import java.util.*;
 
+import corpus.sinhala.crawler.blog.ConfigManager;
 import corpus.sinhala.crawler.blog.controller.CacheManager;
 import corpus.sinhala.crawler.blog.controller.XMLFileWriter;
 import corpus.sinhala.crawler.blog.rss.beans.Feed;
 import corpus.sinhala.crawler.blog.rss.beans.FeedMessage;
 import corpus.sinhala.crawler.blog.rss.beans.Post;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-/**
- * @author pancha
- */
 public class RssSearcher extends Thread {
+    final static Logger logger = Logger.getLogger(RssSearcher.class);
 
-    String url;
+    private String url;
     private HashSet<String> ignoringChars;
-    final double ACCEPTANCE_RATIO;
-    //boolean debug = true;
-
-
+    private final double ACCEPTANCE_RATIO;
 
     public RssSearcher(String url) {
         ACCEPTANCE_RATIO = 0.5;
@@ -39,7 +50,6 @@ public class RssSearcher extends Thread {
         ignoringChars.add("\u007c"); // |
         ignoringChars.add("\u007d"); // }
         ignoringChars.add("\u007e"); // ~
-        //System.out.println("Goto url " + url);
         this.url = url;
         RssWebDriver driver = RssWebDriver.getInstance();
         driver.increase();
@@ -60,7 +70,7 @@ public class RssSearcher extends Thread {
                 Thread.sleep(10);
 
             }
-            driver.get("http://feedburner.google.com/fb/a/myfeeds"); //test here
+            driver.get(ConfigManager.getProperty(ConfigManager.FEED_BURNER_URL)); //test here
             WebElement element = driver.findElement(By.name("sourceUrl"));
             element.sendKeys(url);
             element.submit();
@@ -122,14 +132,14 @@ public class RssSearcher extends Thread {
                         }
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.error(e);
                 }
             }
             Thread.sleep(1000);
 
         } catch (Exception ex) {
-            ex.printStackTrace();
-            // Logger.getLogger(RssSearcher.class.getName()).log(Level.SEVERE, null, ex);
+
+            logger.error(ex);
         }
 
         driver.release();
@@ -149,13 +159,6 @@ public class RssSearcher extends Thread {
                 rejectedSentences += sentence + ".";
             }
         }
-
-        //System.out.println("accepted : -------------------------");
-        //System.out.println(acceptedSentences);
-        //System.out.println("rejected : -------------------------");
-        //System.out.println(rejectedSentences);
-        //System.out.println("------------------------------------");
-
 
         return acceptedSentences;
     }

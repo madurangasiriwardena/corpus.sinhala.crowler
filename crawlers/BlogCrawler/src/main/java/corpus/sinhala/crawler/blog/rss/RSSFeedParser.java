@@ -1,13 +1,23 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
 package corpus.sinhala.crawler.blog.rss;
 
-/**
- *
- * @author pancha
- */
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -21,33 +31,38 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.XMLEvent;
 
+import corpus.sinhala.crawler.blog.ConfigManager;
 import corpus.sinhala.crawler.blog.rss.beans.Feed;
 import corpus.sinhala.crawler.blog.rss.beans.FeedMessage;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class RSSFeedParser {
 
-    static final String TITLE = "title";
-    static final String DESCRIPTION = "description";
-    static final String CHANNEL = "channel";
-    static final String LANGUAGE = "language";
-    static final String COPYRIGHT = "copyright";
-    static final String LINK = "link";
-    static final String AUTHOR = "author";
-    static final String ITEM = "item";
-    static final String PUB_DATE = "pubDate";
-    static final String GUID = "guid";
-    static final String ATOMID = "atom:id";
-    final URL url;
+    final static Logger logger = Logger.getLogger(RSSFeedParser.class);
+
+    private static final String TITLE = "title";
+    private static final String DESCRIPTION = "description";
+    private static final String CHANNEL = "channel";
+    private static final String LANGUAGE = "language";
+    private static final String COPYRIGHT = "copyright";
+    private static final String LINK = "link";
+    private static final String AUTHOR = "author";
+    private static final String ITEM = "item";
+    private static final String PUB_DATE = "pubDate";
+    private static final String GUID = "guid";
+    private static final String ATOMID = "atom:id";
+    private final URL url;
     private String link;
+
     public RSSFeedParser(String feedUrl) {
         link = feedUrl;
-        System.out.println(feedUrl);
+        logger.info("Feed URL : " + feedUrl);
         try {
             this.url = new URL(feedUrl);
         } catch (MalformedURLException e) {
@@ -59,9 +74,6 @@ public class RSSFeedParser {
         Feed feed = null;
         String atomId = "";
         try {
-            
-            
-
             // First create a new XMLInputFactory
             XMLInputFactory inputFactory = XMLInputFactory.newInstance();
             // Setup a new eventReader
@@ -98,14 +110,12 @@ public class RSSFeedParser {
         List<FeedMessage> feeds = new ArrayList<>();
         try{
             DefaultHttpClient client = new DefaultHttpClient();
-            HttpGet get = new HttpGet("https://www.googleapis.com/blogger/v3/blogs/"+blogId+"/posts?key=AIzaSyAKoNUtkiL1Xd_XQryUnqNgDEPhUEgQnRo");
-            //System.out.println("Get Url ");
-            //System.out.println("https://www.googleapis.com/blogger/v3/blogs/"+blogId+"/posts?key=AIzaSyAKoNUtkiL1Xd_XQryUnqNgDEPhUEgQnRo");
+            String apiKey = ConfigManager.getProperty(ConfigManager.API_KEY);
+            HttpGet get = new HttpGet("https://www.googleapis.com/blogger/v3/blogs/"+blogId+"/posts?key="+apiKey);
             get.setHeader("Accept", "*/*");
             HttpResponse response = client.execute(get);
             String json = EntityUtils.toString(response.getEntity());
-            
-            //System.out.println(json);
+
             JSONObject obj = new JSONObject(json);
             JSONArray mainContent = obj.getJSONArray("items");
             for(int i=0;i<mainContent.length();i++){
@@ -128,7 +138,6 @@ public class RSSFeedParser {
                 message.setTitle(title);
                 message.setId(id);
                 feeds.add(message);
-                //System.out.println(title);
             }
             
             
@@ -162,20 +171,6 @@ public class RSSFeedParser {
         }
         s=s.replace("&nbsp;","");
         s=s.replace("\n", "");
-//        String temp = "";
-//        for (int i = 0; i < s.length(); i++) {
-//            if ((int) s.charAt(i) > 500 || s.charAt(i) == ' '|| s.charAt(i) == '.'|| s.charAt(i) == ','|| s.charAt(i) == '?') {
-//                if (s.charAt(i) == ' '||s.charAt(i) == '.'||s.charAt(i) == ','||s.charAt(i) == '?') {
-//                    if(i!=0){
-//                        if(s.charAt(i-1)>500){
-//                            temp = temp + s.charAt(i);
-//                        }
-//                    }
-//                } else {
-//                    temp = temp + s.charAt(i);
-//                }
-//            }
-//        }
         return s.trim();
     }
 
