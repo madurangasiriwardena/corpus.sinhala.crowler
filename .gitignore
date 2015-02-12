@@ -1,0 +1,5 @@
+*/target/*
+*.iml
+*.class
+components/corpus.sinhala.crawler.infra/1.0-SNAPSHOT/target/*
+crawlers/corpus.sinhala.crawler.adaderana/.idea/*
