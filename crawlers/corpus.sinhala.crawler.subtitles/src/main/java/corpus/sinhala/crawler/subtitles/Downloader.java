@@ -30,8 +30,8 @@ public class Downloader {
 				
 	}
 	
+	
 	public void unzip(String zipFile, String outputFolder) throws FileNotFoundException{
-		System.out.println(zipFile);
 		ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile));
 		File dest = new File(outputFolder);
 		byte[] buffer = new byte[1024];
@@ -51,8 +51,6 @@ public class Downloader {
 	 
 	    	   String fileName = ze.getName();
 	           File newFile = new File(dest + File.separator + fileName);
-	 
-	           System.out.println("file unzip : "+ newFile.getAbsoluteFile());
 	 
 	            //create all non exists folders
 	            //else you will hit FileNotFoundException for compressed folder
@@ -84,8 +82,6 @@ public class Downloader {
 	        zis.closeEntry();
 	    	zis.close();
 	 
-	    	System.out.println("Done");
-	 
 	    }catch(IOException ex){
 	       ex.printStackTrace(); 
 	    }
@@ -94,7 +90,6 @@ public class Downloader {
 	public void Download(String urlString, String filename) throws MalformedURLException, IOException{
 		InputStream in = null;
 	    FileOutputStream fout = null;
-	    //System.out.println(filename);
 	    try {
 	    	URL url = new URL(urlString);
 	    	HttpGet post = new HttpGet(urlString);
@@ -104,8 +99,6 @@ public class Downloader {
 	    	HttpEntity entity = response.getEntity();
 	    	if (entity != null) {
 	        	in = entity.getContent();
-	    	    //System.out.println(filename);
-			
 				fout = new FileOutputStream(filename);
 
 		        final byte data[] = new byte[1024];

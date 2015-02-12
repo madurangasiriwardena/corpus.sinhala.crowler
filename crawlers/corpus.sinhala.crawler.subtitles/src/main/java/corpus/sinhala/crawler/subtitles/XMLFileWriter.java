@@ -7,8 +7,6 @@ import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
@@ -27,9 +25,6 @@ public class XMLFileWriter {
 	private int fileCounter;
 	private String baseFolder;
 	private String filePath;
-	// private BufferedWriter bw;
-	// private FileWriter fw;
-	private int maxDocumentCounter;
 	private String path;
 
 	private OMFactory factory;
@@ -83,7 +78,6 @@ public class XMLFileWriter {
 		documentCounter = 0;
 		filePrefix = "L";
 		fileCounter = 0;
-		maxDocumentCounter = 100;
 		rootName = new QName("root");
 		linkName = new QName("link");
 		topicName = new QName("topic");
@@ -104,7 +98,6 @@ public class XMLFileWriter {
 
 	public void addDocument(String url, String title, String text) throws IOException,
 			XMLStreamException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		//Parser parser = (Parser) cons.newInstance(page, url);
 		OMElement doc = factory.createOMElement(postName);
 		
 		OMElement link = factory.createOMElement(linkName);
@@ -119,8 +112,6 @@ public class XMLFileWriter {
 		OMElement content = factory.createOMElement(contentName);
 		content.setText(text);
 		doc.addChild(content);
-		// root.addChild(doc);
-
 		docs.add(doc);
 
 	}
@@ -172,25 +163,9 @@ public class XMLFileWriter {
 			root.addChild(docs.get(i));
 
 			documentCounter++;
-			System.out
-					.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-							+ documentCounter);
-//			if (documentCounter % maxDocumentCounter == 0) {
-//				try {
-//					writeToFile();
-//				} catch (IOException | XMLStreamException e) {
-//				}
-//				documentCounter = 0;
-//				root = factory.createOMElement(rootName);
-//			}
+			
 		}
 		
-//		if(documentCounter>0){
-//			try {
-//				writeToFileTemp();
-//			} catch (IOException | XMLStreamException e) {
-//			}
-//		}
 		try {
 			writeToFile();
 		} catch (IOException | XMLStreamException e) {

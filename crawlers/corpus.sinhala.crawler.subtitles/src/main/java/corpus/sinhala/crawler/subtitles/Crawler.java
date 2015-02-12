@@ -11,7 +11,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -20,30 +19,27 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 
 public class Crawler {
-    int counter = 0;
-    Connection conn = null;
-	Statement stmt = null;
-	ResultSet rs = null;
-	String driverName;
-	String url;
-	String uname;
-	String pwd;
+    private int counter = 0;
+    private Connection conn = null;
+    private String driverName,url,uname,pwd;
+    
+	private final static Logger logger = Logger.getLogger(Crawler.class);
 	
 	public Crawler() {
-		driverName = "com.mysql.jdbc.Driver";
-		url = "jdbc:mysql://"+"localhost"+":3306/crawler_data";
-		uname = "root";
-		pwd = "";
+		driverName = ConfigManager.getProperty(ConfigManager.MYSQL_DB_DRIVER);
+		url = ConfigManager.getProperty(ConfigManager.MYSQL_DB_CONNECTION);
+		uname = ConfigManager.getProperty(ConfigManager.MYSQL_DB_USER);
+		pwd = ConfigManager.getProperty(ConfigManager.MYSQL_DB_PASSWORD);
 		if (conn == null)
-			conn = getConnection(driverName, url, "root", "");
+			conn = getConnection(driverName, url, uname, pwd);
 	}
 	
 	public Connection getConnection(String driver, String url, String uname,
@@ -55,16 +51,13 @@ public class Crawler {
 			conn = DriverManager.getConnection(url, uname, pwd);
 
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			logger.error(ex);
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		} 
 
 		return conn;
@@ -73,15 +66,15 @@ public class Crawler {
 		Crawler c = new Crawler();
 		Parser p = new Parser();
 		Downloader d = new Downloader();
-		XMLFileWriter writer = new XMLFileWriter("/home/chamila/semester7/fyp/folders/data/");
-		c.crawl(d,writer,"/home/chamila/semester7/fyp/subtitles/",p);
+		XMLFileWriter writer = new XMLFileWriter(ConfigManager.getProperty(ConfigManager.XML_SAVE_LOCATION));
+		c.crawl(d,writer,ConfigManager.getProperty(ConfigManager.ZIP_SAVE_LOCATION),p);
 	}
 	
 	public void crawl(Downloader d, XMLFileWriter writer, String SaveLoc,Parser p) throws ClientProtocolException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, XMLStreamException{
 		int count = 1;
 		outer:
 		while(true){
-			HttpGet post = new HttpGet("http://www.baiscopelk.com/category/%E0%B7%83%E0%B7%92%E0%B6%82%E0%B7%84%E0%B6%BD-%E0%B6%8B%E0%B6%B4%E0%B7%83%E0%B7%92%E0%B6%BB%E0%B7%90%E0%B7%83/page/" + count + "/");
+			HttpGet post = new HttpGet(ConfigManager.getProperty(ConfigManager.BAISCOPE_LIST_PAGE) + count + "/");
 			//if page notexist, break
 	    	HttpClient httpclient = HttpClients.createDefault();
 	    	HttpResponse response = httpclient.execute(post);
@@ -114,15 +107,13 @@ public class Crawler {
 						getZip(tempUrl,d,SaveLoc, writer,p);
 						writeDB(tempUrl);
 					}catch(Exception e){
-						System.out.println(tempUrl);
+						logger.error(e);
 					}
 				}
 	    	}
 	    	count++;
-	    	//break;
 	    	
 		}
-		//System.out.println("break");
 	}
 	
 	public void getZip(String url, Downloader d, String saveLoc, XMLFileWriter writer, Parser p) throws ClientProtocolException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, XMLStreamException{
@@ -133,8 +124,7 @@ public class Crawler {
     	HttpEntity entity = response.getEntity();
     	
     	if (entity != null) {
-    		System.out.println("True");
-    	    InputStream instream = entity.getContent();
+    		InputStream instream = entity.getContent();
     	    
     	    String line = null;
 			StringBuffer tmp = new StringBuffer();
@@ -150,34 +140,26 @@ public class Crawler {
 			for(int i=0;i<zipUrl.size();i++){
 				if(zipUrl.get(i).text().contains("සිංහල උපසිරැසි මෙතනින් බාගන්න")){
 					String link = zipUrl.get(i).attr("href");
-					//d.Download(link, saveLoc );
-					System.out.println(link);
 					String[] arr = link.split("/");
 					int len = arr.length;
-					System.out.println(saveLoc + arr[len-1].split("=")[1] + "===");
 					d.Download(link, saveLoc + arr[len-1].split("=")[1]);
 					d.unzip(saveLoc + arr[len-1].split("=")[1], saveLoc + arr[len-1].split("=")[1].split(".zip")[0]);
 					String title = arr[len-1].split("=")[1].split(".zip")[0];
 					File folder = new File(saveLoc + arr[len-1].split("=")[1].split(".zip")[0]   );
 					File[] listOfFiles = folder.listFiles();
-					System.out.println(listOfFiles[0].toString() + "-----------");
 					File innerFolder = new File(listOfFiles[0].toString());
 					listOfFiles = innerFolder.listFiles();
 					for (int j = 0; j < listOfFiles.length; j++) {
 						if(listOfFiles[j].toString().endsWith("srt")){
-							System.out.println(listOfFiles[j].toString());
 							writer.addDocument(link,title, p.getText(listOfFiles[j].toString()));
 							counter ++;
-							System.out.println(counter);
-							if(counter%100==0){
+							if(counter%5==0){
 								writer.update();
-								
 							}
 							break;
 						}
 					}
-					System.out.println("---------------------------");
-					//writer.addDocument(link, arr[len-1].split("=")[1].split(".zip")[0], "");
+					
 				}
 			}
 			
@@ -198,8 +180,7 @@ public class Crawler {
 			}
 			return false;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		}
 		return false;
 	}
@@ -213,8 +194,7 @@ public class Crawler {
 			stmt3.setString(1, url);
 			stmt3.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 	
